@@ -10814,7 +10814,8 @@ article.article .article-meta {
 }
 article.article .content {
   word-wrap: break-word;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
+  line-height: 1.8;
 }
 article.article .content h1 {
   font-size: 1.75em;
