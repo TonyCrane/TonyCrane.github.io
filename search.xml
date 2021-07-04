@@ -410,7 +410,22 @@
 <p>之前一直很好奇函数式编程，觉得Haskell挺有意思的，想学学<br>现在高考完放假了，可以有时间具体学一学了<br>这里没有Haskell的教程，只有一些我在学习这门语言的时候易忘的东西和想到的问题</p>
 <span id="more"></span>
 
-<h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><p><del>这部分足足看了一下午</del></p>
+<h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><h3 id="Function-application"><a href="#Function-application" class="headerlink" title="Function application"></a>Function application</h3><p>函数应用可以使用<code>$</code>，<code>$</code>是一个函数，它的类型是：</p>
+<p style="text-align: center;">($) :: (a -> b) -> a -> b</p>
+
+<p>它可以改变函数结合优先级，将左侧函数应用于全部右侧内容上，相当于给右侧整体加上了括号。否则函数默认左结合，会依次向右应用而不会应用在整体上。</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">f</span> $ g x</span><br><span class="line"><span class="comment">-- 等价于</span></span><br><span class="line"><span class="title">f</span> (g x)</span><br><span class="line"><span class="comment">-----</span></span><br><span class="line"><span class="title">f</span> g x</span><br><span class="line"><span class="comment">-- 等价于</span></span><br><span class="line">(f g) x</span><br></pre></td></tr></table></figure>
+<h3 id="Function-Composition"><a href="#Function-Composition" class="headerlink" title="Function Composition"></a>Function Composition</h3><p>函数复合可以使用<code>.</code>，<code>.</code>也是一个函数，它的类型是：</p>
+<p style="text-align: center;">(.) :: (b -> c) -> (a -> b) -> a -> c</p>
+
+<p>定义是：</p>
+<p style="text-align: center;">f . g = \x -> f (g x)</p>
+
+<p>但是函数复合的优先级要比函数执行低，比如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">sum</span> . replicate <span class="number">5</span> . max <span class="number">6.7</span> <span class="number">8.9</span></span><br></pre></td></tr></table></figure>
+<p>会先执行max 6.7 8.9并返回8.9，然后将sum、replicate 5、8.9复合，但两个函数无法和一个值(8.9)复合，所以会抛出异常。因此要使用<code>$</code>来规定先复合再执行：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">sum</span> . replicate <span class="number">5</span> . max <span class="number">6.7</span> $ <span class="number">8.9</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h3><p>Haskell语言中的lambda表达式是用<code>\</code>来表示的（因为看着像$\mathtt{\lambda}$？）<br>具体语法是</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">\para1 para2 ... -&gt; return</span><br></pre></td></tr></table></figure>
 <p>“-&gt;”前的 para1 para2 … 是传入参数，单个多个都可以，需要用空格隔开；”-&gt;”后的 return 是计算得到的返回值。一般需要用括号将整个表达式括起来，防止返回值部分一直向右延伸。</p>
@@ -572,7 +587,7 @@
 <h4 id="Derived-instances"><a href="#Derived-instances" class="headerlink" title="Derived instances"></a>Derived instances</h4><p>想要使一个定义的类满足某些Typeclass的需求，需要从其派生（derive），比如：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Day</span> = <span class="type">Monday</span> | <span class="type">Tuesday</span> | <span class="type">Wednesday</span> | <span class="type">Thursday</span> | <span class="type">Friday</span> | <span class="type">Saturday</span> | <span class="type">Sunday</span>   </span></span><br><span class="line">           <span class="keyword">deriving</span> (<span class="type">Eq</span>, <span class="type">Ord</span>, <span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Bounded</span>, <span class="type">Enum</span>)  </span><br></pre></td></tr></table></figure>
 <p>这样Day类型的值（Monday～Sunday）之间就可以比较是否相等（从Eq派生），比较大小（从Ord派生，左侧为小，右侧为大），显示成字符串（从Show派生），从字符串中读取（从Read派生），包含边界（从Bounded派生），可以枚举（从Enum派生，按照值构造器中的顺序依次向右）</p>
-<h4 id="Type-synonyms"><a href="#Type-synonyms" class="headerlink" title="Type synonyms"></a>Type synonyms</h4><p>为了阅读方便，书写简便，可以使用<code>type</code>关键字为已有类型创建别名（sysnonyms）。比如String的定义：</p>
+<h4 id="Type-synonyms"><a href="#Type-synonyms" class="headerlink" title="Type synonyms"></a>Type synonyms</h4><p>为了阅读方便，书写简便，可以使用<code>type</code>关键字为已有类型创建别名（synonyms）。比如String的定义：</p>
 <p style="text-align: center;">type String = [Char]</p>
 
 <p>在所有需要使用字符串（即[Char]）的地方都可以使用String来代替，它们是完全一致的，只是String更简便易读。<br>同时，类型别名也可以接收类型参数</p>
@@ -598,7 +613,118 @@
 <h3 id="Kinds"><a href="#Kinds" class="headerlink" title="Kinds"></a>Kinds</h3><p>一个值的类型叫做类型（Type），而一个类型的类型叫做Kind。可以通过GHCi中<code>:k</code>来查看Kind：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Int</span></span><br><span class="line"><span class="type">Int</span> :: *</span><br><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Maybe</span></span><br><span class="line"><span class="type">Maybe</span> :: * -&gt; *</span><br><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Maybe</span> <span class="type">Int</span></span><br><span class="line"><span class="type">Maybe</span> <span class="type">Int</span> :: *</span><br><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Either</span></span><br><span class="line"><span class="type">Either</span> :: * -&gt; * -&gt; *</span><br></pre></td></tr></table></figure>
 <p>其中的星号<code>*</code>代表了一个具体类型（concrete type）。Int本身就是一个具体类型，所以Int的Kind是*。而Maybe是一个类型构造器，它接收一个具体类型返回一个新的具体类型，所以Maybe的Kind是* -&gt; *。如果给Maybe传入了一个Int，那么得到的Maybe Int就是一个具体的类型，它的Kind就是*。Either也是一个类型构造器，但它接收两个类型才产生一个新的类型，所以Either的Kind是* -&gt; * -&gt; *。</p>
-<h2 id="Input-Output"><a href="#Input-Output" class="headerlink" title="Input/Output"></a>Input/Output</h2><p><del>累了，明天再看</del></p>
+<h2 id="Input-Output"><a href="#Input-Output" class="headerlink" title="Input/Output"></a>Input/Output</h2><h3 id="运行Haskell程序"><a href="#运行Haskell程序" class="headerlink" title="运行Haskell程序"></a>运行Haskell程序</h3><p>不在GHCi中运行一个Haskell程序有两种方式：</p>
+<ol>
+<li>编译运行： <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ ghc --make code</span><br><span class="line">$ ./code</span><br></pre></td></tr></table></figure></li>
+<li>通过<code>runhaskell</code>命令直接运行： <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">$ runhaskell code.hs</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="输出文本"><a href="#输出文本" class="headerlink" title="输出文本"></a>输出文本</h3><p>在一个Haskell程序中输出文字需要定义一个main函数：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = putStrLn <span class="string">&quot;Hello World&quot;</span></span><br></pre></td></tr></table></figure>
+<p>其中putStrLn的类型是：</p>
+<p style="text-align: center;">putStrLn :: String -> IO ()</p>
+
+<p>putStrLn接收一个String类型，并返回一个结果为()类型的IO动作（I/O action）。所以main函数的类型为IO ()。（IO的Kind是* -&gt; *）</p>
+<p>除此之外，还有其他默认提供的输出文本的函数：</p>
+<ul>
+<li><code>putStr</code>：输出文本，结尾不换行</li>
+<li><code>putChar</code>：输出单个字符，结尾不换行。接收的参数为单个Char，不是String（用单引号不是双引号）</li>
+<li><code>print</code>：可以接收任何Show的成员，先用show转化为字符串然后输出。等同于putStrLn . show</li>
+</ul>
+<h4 id="do-block"><a href="#do-block" class="headerlink" title="do block"></a>do block</h4><p>在main函数中使用多个putStrLn需要使用do语句：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = <span class="keyword">do</span></span><br><span class="line">    putStrLn <span class="string">&quot;Line1&quot;</span></span><br><span class="line">    putStrLn <span class="string">&quot;Line2&quot;</span></span><br></pre></td></tr></table></figure>
+<p>其中最后一行一定要返回IO ()类型的值</p>
+<h3 id="输入文本"><a href="#输入文本" class="headerlink" title="输入文本"></a>输入文本</h3><p>输入文字需要在do块中使用getLine：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = <span class="keyword">do</span></span><br><span class="line">    line &lt;- getLine</span><br><span class="line">    putStrLn line</span><br></pre></td></tr></table></figure>
+<p>getLine的类型是：</p>
+<p style="text-align: center;">getLine :: IO String</p>
+
+<p>而&lt;-操作符将getLine中的String提取了出来给到了line，使line变成了String类型的一个字符串。</p>
+<p>而且使用输入的字符串必须要经过一次&lt;-，不能直接使用getLine作为字符串，因为getLine不是String类型，而是IO String类型。</p>
+<p>除此之外，还可以使用getChar来获取单个字符，但仍然需要使用&lt;-操作符来提取Char</p>
+<h3 id="其他IO相关函数用法"><a href="#其他IO相关函数用法" class="headerlink" title="其他IO相关函数用法"></a>其他IO相关函数用法</h3><h4 id="return"><a href="#return" class="headerlink" title="return"></a>return</h4><p>Haskell中的return和其他命令式语言中的return完全不同，它不会使函数直接结束并返回一个值。</p>
+<p>main函数必须定义为类型为IO ()的函数，所以在main函数中使用if语句，如果不输出的话也不可以直接放下什么都不干，因为这时候main函数的类型不是IO ()。所以这时需要使用return ()来为main函数指定为IO ()类型，例如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = <span class="keyword">do</span> </span><br><span class="line">    line &lt;- getLine</span><br><span class="line">    <span class="keyword">if</span> null line</span><br><span class="line">        <span class="keyword">then</span> return () <span class="comment">-- &lt;-这里</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">do</span></span><br><span class="line">            ...</span><br></pre></td></tr></table></figure>
+<p>使用&lt;-操作符也可以直接将return语句中的内容提取出来，比如a &lt;- return ‘A’，执行后a就是’A’。</p>
+<h4 id="when"><a href="#when" class="headerlink" title="when"></a>when</h4><p>when包含在<code>Control.Monad</code>模块中，它表示在满足第一个参数的条件下会执行第二个函数，否则会return ()。比如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Control.Monad   </span><br><span class="line">  </span><br><span class="line"><span class="title">main</span> = <span class="keyword">do</span>  </span><br><span class="line">    c &lt;- getChar  </span><br><span class="line">    when (c /= &#x27; &#x27;) $ <span class="keyword">do</span>  </span><br><span class="line">        putChar c  </span><br><span class="line">        main  </span><br></pre></td></tr></table></figure>
+<p>等同于：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = <span class="keyword">do</span>     </span><br><span class="line">    c &lt;- getChar  </span><br><span class="line">    <span class="keyword">if</span> c /= &#x27; &#x27;  </span><br><span class="line">        <span class="keyword">then</span> <span class="keyword">do</span>  </span><br><span class="line">            putChar c  </span><br><span class="line">            main  </span><br><span class="line">        <span class="keyword">else</span> return () </span><br></pre></td></tr></table></figure>
+
+<h4 id="sequence"><a href="#sequence" class="headerlink" title="sequence"></a>sequence</h4><p>sequence在IO中使用时可以达成[IO a] -&gt; IO [a]的效果，所以可以用作：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">[a, b, c] &lt;- sequence [getLine, getLine, getLine]</span><br></pre></td></tr></table></figure>
+
+<h4 id="mapM-amp-mapM"><a href="#mapM-amp-mapM" class="headerlink" title="mapM &amp; mapM_"></a>mapM &amp; mapM_</h4><p>在IO相关的地方使用map，可以使用mapM和mapM_，其中mapM有返回值而mapM_直接扔掉了返回值：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; mapM print [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]  </span><br><span class="line"><span class="number">1</span>  </span><br><span class="line"><span class="number">2</span>  </span><br><span class="line"><span class="number">3</span>  </span><br><span class="line">[(),(),()]  </span><br><span class="line"><span class="title">ghci</span>&gt; mapM_ print [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]  </span><br><span class="line"><span class="number">1</span>  </span><br><span class="line"><span class="number">2</span>  </span><br><span class="line"><span class="number">3</span>  </span><br></pre></td></tr></table></figure>
+
+<h4 id="forever"><a href="#forever" class="headerlink" title="forever"></a>forever</h4><p>forever函数包含在<code>Control.Monad</code>模块中。在main函数开头加上forever函数可以使后面的do块一直重复执行直到程序被迫终止，如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Control.Monad</span><br><span class="line">  </span><br><span class="line"><span class="title">main</span> = forever $ <span class="keyword">do</span></span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+
+<h4 id="forM"><a href="#forM" class="headerlink" title="forM"></a>forM</h4><p>forM函数包含在<code>Control.Monad</code>模块中，它的功能和mapM类似，从第一个参数中逐个取出元素传入第二个参数（一个接收一个参数的函数）中，并且第二个参数可以返回IO a类型。比如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Control.Monad</span><br><span class="line"></span><br><span class="line"><span class="title">main</span> = <span class="keyword">do</span> </span><br><span class="line">    colors &lt;- forM [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] (\a -&gt; <span class="keyword">do</span></span><br><span class="line">        putStrLn $ <span class="string">&quot;Which color do you associate with the number &quot;</span> ++ show a ++ <span class="string">&quot;?&quot;</span>  </span><br><span class="line">        color &lt;- getLine  </span><br><span class="line">        return color)</span><br><span class="line">    putStrLn <span class="string">&quot;The colors that you associate with 1, 2, 3 and 4 are: &quot;</span>  </span><br><span class="line">    mapM putStrLn colors</span><br></pre></td></tr></table></figure>
+
+<h4 id="getContents"><a href="#getContents" class="headerlink" title="getContents"></a>getContents</h4><p>getLine获取一整行，而getContents从标准输入中获取全部内容直到遇到EOF，并且它是lazy的，在执行了foo &lt;- getContents后，它并不会读取标准输入并且赋值到foo，而是等到需要使用foo的时候再从标准输入读取。</p>
+<p>getContents在使用管道传入文字时很常用，可以代替forever+getLine使用，比如一个Haskell程序文件code.hs：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> Data.Char  </span><br><span class="line">  </span><br><span class="line"><span class="title">main</span> = <span class="keyword">do</span>  </span><br><span class="line">    contents &lt;- getContents  </span><br><span class="line">    putStr (map toUpper contents)  </span><br></pre></td></tr></table></figure>
+<p>使用ghc –make code编译后，通过管道传入文字：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">cat text.txt | ./code</span><br></pre></td></tr></table></figure>
+<p>会将text.txt中的所有字母转为大写并输出</p>
+<h4 id="interact"><a href="#interact" class="headerlink" title="interact"></a>interact</h4><p>上述功能还可以转化为一个String -&gt; String的函数：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">upperStrings</span> = unlines . map (map toUpper) . lines</span><br></pre></td></tr></table></figure>
+<p>而在main中使用这个函数就需要：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = <span class="keyword">do</span></span><br><span class="line">    contents &lt;- getContents</span><br><span class="line">    putStr (upperStrings contents)</span><br></pre></td></tr></table></figure>
+<p>但是String -&gt; String类型的函数在输入输出中的使用太常见了，所以可以使用interact函数来简化。interact的类型是：</p>
+<p style="text-align: center;">interact :: (String -> String) -> IO ()</p>
+
+<p>可以看出它接收一个String -&gt; String的函数，并返回一个IO ()类型，所以可以直接用在main上。</p>
+<p>于是整个转换为大写的程序就可以简化为：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">main</span> = interact $ unlines . map (map toUpper) . lines</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件和流"><a href="#文件和流" class="headerlink" title="文件和流"></a>文件和流</h3><p>以下与文件和流相关的函数都包含在<code>System.IO</code>模块中</p>
+<h4 id="openFile"><a href="#openFile" class="headerlink" title="openFile"></a>openFile</h4><p>openFile函数可以用来打开一个文件，它的类型是：</p>
+<p style="text-align: center;">openFile :: FilePath -> IOMode -> IO Handle</p>
+
+<p>其中<code>FilePath</code>是String的type synonyms，用一个字符串来表示需要打开的文件的路径</p>
+<p><code>IOMode</code>的定义是：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">IOMode</span> = <span class="type">ReadMode</span> | <span class="type">WriteMode</span> | <span class="type">AppendMode</span> | <span class="type">ReadWriteMode</span></span></span><br></pre></td></tr></table></figure>
+<p>所以它一共只有四个值，用来表示进行IO操作的模式</p>
+<p>openFile返回一个IO Handle类型的值，将其用&lt;-操作符提取后会出现一个Handle的值。但不能从Handle中直接使用文字，还需要使用一系列函数：</p>
+<ul>
+<li><code>hGetContents</code> :: Handle -&gt; IO String ，从Handle中读取全部内容，返回一个IO String</li>
+<li><code>hGetChar</code> :: Handle -&gt; IO Char ，从Handle中读取一个字符</li>
+<li><code>hGetLine</code> :: Handle -&gt; IO String ，从Handle中读取一行，返回一个IO String</li>
+<li><code>hPutStr</code> :: Handle -&gt; String -&gt; IO () ，向Handle中输出字符串</li>
+<li><code>hPutStrLn</code> :: Handle -&gt; String -&gt; IO () ，同上</li>
+</ul>
+<p>在使用openFile进行文件操作后，需要使用hClose手动关闭Handle。hClose :: Handle -&gt; IO ()，接收一个Handle并返回IO ()，可以直接放在main函数末尾</p>
+<p>所以使用openFile读取一个文件中的全部内容并输出的全部代码是：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> System.IO</span><br><span class="line"></span><br><span class="line"><span class="title">main</span> = <span class="keyword">do</span></span><br><span class="line">    handle &lt;- openFile <span class="string">&quot;text.txt&quot;</span> <span class="type">ReadMode</span></span><br><span class="line">    contents &lt;- hGetContents handle</span><br><span class="line">    putStrLn contents</span><br><span class="line">    hClose handle</span><br></pre></td></tr></table></figure>
+
+<h4 id="withFile"><a href="#withFile" class="headerlink" title="withFile"></a>withFile</h4><p>withFile类似Python中的with open，它在读取文件使用之后不需要手动close文件。它的类型是：</p>
+<p style="text-align: center;">withFile :: FilePath -> IOMode -> (Handle -> IO a) -> IO a</p>
+
+<p>可以看出，它接收三个参数：</p>
+<ul>
+<li><code>FilePath</code>：一个表示文件路径的String</li>
+<li><code>IOMode</code>：打开文件的模式</li>
+<li><code>(Handle -&gt; IO a)</code>：一个函数，表示对读取文件后的Handle索要进行的操作，需要返回一个I/O action；而这个返回值也将作为withFile的返回值</li>
+</ul>
+<p>现在使用withFile来改写上述代码：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> System.IO</span><br><span class="line"></span><br><span class="line"><span class="title">main</span> = withFile <span class="string">&quot;text.txt&quot;</span> <span class="type">ReadMode</span> (\handle -&gt; <span class="keyword">do</span></span><br><span class="line">    contents &lt;- hGetContents handle</span><br><span class="line">    putStrLn contents)</span><br></pre></td></tr></table></figure>
+
+<p>withFile的功能相当于以下函数：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">withFile&#x27;</span> :: <span class="type">FilePath</span> -&gt; <span class="type">IOMode</span> -&gt; (<span class="type">Handle</span> -&gt; <span class="type">IO</span> a) -&gt; <span class="type">IO</span> a  </span><br><span class="line"><span class="title">withFile&#x27;</span> path mode f = <span class="keyword">do</span>  </span><br><span class="line">    handle &lt;- openFile path mode   </span><br><span class="line">    result &lt;- f handle  </span><br><span class="line">    hClose handle  </span><br><span class="line">    return result  </span><br></pre></td></tr></table></figure>
+
+<h4 id="readFile"><a href="#readFile" class="headerlink" title="readFile"></a>readFile</h4><p>readFile可以更加简化读取文件内容的操作，它的类型：</p>
+<p style="text-align: center;">readFile :: FilePath -> IO String</p>
+
+<p>它只需要输入一个表示文件路径的字符串，返回其中以其中内容为内容的I/O action：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> System.IO</span><br><span class="line"></span><br><span class="line"><span class="title">main</span> = <span class="keyword">do</span></span><br><span class="line">    contents &lt;- readFile <span class="string">&quot;text.txt&quot;</span></span><br><span class="line">    putStrLn contents</span><br></pre></td></tr></table></figure>
+
+<h4 id="writeFile"><a href="#writeFile" class="headerlink" title="writeFile"></a>writeFile</h4><p>writeFile简化了写入文件的操作，它的类型：</p>
+<p style="text-align: center;">writeFile :: FilePath -> String -> IO ()</p>
+
+<p>传入的第一个参数是要写入的文件的路径，第二个参数是要写入的字符串，返回一个IO ()</p>
+<h4 id="appendFile"><a href="#appendFile" class="headerlink" title="appendFile"></a>appendFile</h4><p>appendFile类似writeFile，但使用它不会覆盖文件中原来内容，而是直接把字符串添加到文件末尾</p>
 <p style="text-align: center; font-size: x-large; font-weight: bolder"> 未完待续 </p>]]></content>
       <tags>
         <tag>Haskell</tag>
