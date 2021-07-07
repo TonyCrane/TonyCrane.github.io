@@ -1120,8 +1120,8 @@
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
         <tag>github</tag>
+        <tag>笔记</tag>
         <tag>manim</tag>
         <tag>python</tag>
         <tag>bug</tag>
@@ -3641,5 +3641,147 @@ MathJax.Hub.Config({
     <title>categories</title>
     <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>友链</title>
+    <url>/friends/index.html</url>
+    <content><![CDATA[<style type="text/css">
+@media screen and (min-width: 1280px) {
+    .column.is-6-widescreen {
+        flex: none;
+        width: 75%;
+    }
+}
+.flink-list {
+    overflow: auto;
+    padding: 10px 10px 0;
+    text-align: center;
+}
+.flink-list a {
+    color: #4a4a4a;
+}
+.flink-list-item {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    margin: 15px 7px;
+    width: calc(100% / 3 - 15px);
+    height: 90px;
+    border-radius: 8px;
+    line-height: 17px;
+    -webkit-transform: translateZ(0);
+    transition: 0.25s;
+}
+.flink-item-icon {
+    float: left;
+    overflow: hidden;
+    margin: 15px 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 35px;
+}
+.flink-item-name {
+    padding: 16px 10px 0 0;
+    height: 40px;
+    font-weight: bold;
+    font-size: 1.43em;
+}
+.flink-item-desc {
+    padding: 16px 10px 16px 0;
+    height: 50px;
+    font-size: 0.93em;
+}
+.flink-list-item:hover {
+    background-color: #81ACF9;
+}
+@media screen and (max-width: 1280px) {
+    .flink-list-item {
+        width: calc(50% - 15px) !important;
+    }
+}
+@media screen and (max-width: 810px) {
+    .flink-list-item {
+        width: calc(100% - 15px) !important;
+    }
+}
+</style>
+
+<div class="flink-list">
+
+<div class="flink-list-item">
+    <a href="https://blog.gztime.cc/" title="GZTime" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://cdn.gztime.cc/avatar/GZTime_2021.png" alt="GZTime">
+        </div>
+        <div class="flink-item-name">GZTime</div>
+        <div class="flink-item-desc">Walking on the Time Axis.</div>
+    </a>
+</div>
+
+<div class="flink-list-item">
+    <a href="https://cigar666.github.io/" title="Cigar666" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://cigar666.github.io/media/cigar.png" alt="Cigar666">
+        </div>
+        <div class="flink-item-name">Cigar666</div>
+        <div class="flink-item-desc">_(:з」∠)_</div>
+    </a>
+</div>
+
+<div class="flink-list-item">
+    <a href="https://blog.flwfdd.xyz/" title="范滇东" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://z3.ax1x.com/2021/06/16/2LUYQA.jpg" alt="范滇东">
+        </div>
+        <div class="flink-item-name">范滇东</div>
+        <div class="flink-item-desc">|･ω･｀)</div>
+    </a>
+</div>
+
+<div class="flink-list-item">
+    <a href="https://widcardw.github.io/" title="widcardw" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://widcardw.github.io/links/avatar.jpg" alt="widcardw">
+        </div>
+        <div class="flink-item-name">widcardw</div>
+        <div class="flink-item-desc">不是多面手</div>
+    </a>
+</div>
+
+<div class="flink-list-item">
+    <a href="https://hk-shao.github.io" title="烧风" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://avatars2.githubusercontent.com/u/24982550" alt="烧风">
+        </div>
+        <div class="flink-item-name">烧风</div>
+        <div class="flink-item-desc">A human.</div>
+    </a>
+</div>
+
+<div class="flink-list-item">
+    <a href="https://matheart.github.io/" title="數心" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://matheart.github.io/media/profile.jpg" alt="數心">
+        </div>
+        <div class="flink-item-name">數心</div>
+        <div class="flink-item-desc">萬物皆數.</div>
+    </a>
+</div>
+
+</div>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><div class="flink-list">
+
+<div class="flink-list-item">
+    <a href="https://manim.org.cn" title="MK官网" target="_blank">
+        <div class="flink-item-icon">
+            <img src="https://manim.org.cn/assets/mk.svg" alt="MK官网">
+        </div>
+        <div class="flink-item-name">MK官网</div>
+        <div class="flink-item-desc">manim-kindergarten官网</div>
+    </a>
+</div>
+
+</div>]]></content>
   </entry>
 </search>
