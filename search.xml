@@ -596,6 +596,8 @@
 </div>
 
 <h2 id="Functors"><a href="#Functors" class="headerlink" title="Functors"></a>Functors</h2><p>函子（Functor）是一个类型类（typeclass），和其他类型类一样，它规定了其实例类必须实现的功能（例如Eq类型类规定了它的实例必须是可以比较是否相等的），Functor规定类它的实例必须是可以进行映射的。Functor要求使用<code>fmap</code> :: (a -&gt; b) -&gt; f a -&gt; f b 函数来实现这个功能，它接收一个a -&gt; b类型的函数、一个内部元素为a类型的函子，返回一个内部元素为b类型的函子</p>
+<span id="more"></span>
+
 <p>Functor可以比作盒子，那fmap函数就相当于给定一个函数和一个盒子，将盒子中的全部元素都应用这个函数，再返回应用函数后的盒子</p>
 <p>函子的实例必须是一个Kind为* -&gt; *的类型构造器，因为它要求其是一个盒子，盒子在接收内容后才会成为一个具体的类型。fmap中的<code>f a</code>和<code>f b</code>也是因为<code>f</code>是一个类型构造器，在接收类型a/b后才会变成一个具体类型（f a和f b）出现在函数类型声明中</p>
 <p>Functor的定义是:</p>
