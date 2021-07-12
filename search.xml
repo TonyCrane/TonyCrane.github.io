@@ -15,6 +15,24 @@
 <p>#0&nbsp;|&nbsp;<a href="/p/b3ca5c18.html">总章</a>&emsp;&emsp;&emsp;&emsp;&emsp;<br>#1&nbsp;|&nbsp;<a href="/p/d63b5b5f.html">基础语法与函数</a><br>#2&nbsp;|&nbsp;<a href="/p/53e482b7.html">高阶函数与模块</a><br>#3&nbsp;|&nbsp;<a href="/p/369b7e08.html">类型与类型类</a>&emsp;<br>#4&nbsp;|&nbsp;<a href="/p/a5bbe48a.html">输入输出与文件</a><br>#5&nbsp;|&nbsp;<a href="/p/290ecb74.html">函子与应用函子</a></p>
 </div>
 
+<h2 id="基础运算"><a href="#基础运算" class="headerlink" title="基础运算"></a>基础运算</h2><ul>
+<li><code>+ - * / ()</code>：加减乘除</li>
+<li><code>div</code>：整除</li>
+<li><code>mod</code>：取模</li>
+<li><code>True False</code>：布尔值</li>
+<li><code>|| &amp;&amp; not</code>：或且非</li>
+<li><code>==</code>：条件判断，相等</li>
+<li><code>/=</code>：条件判断，不等</li>
+</ul>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p>Haskell中调用函数不加括号，先写出函数名，然后逐个列出参数，用空格隔开：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; max <span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>前缀（prefix）函数与中缀（infix）函数转换：</p>
+<ul>
+<li>对前缀函数加<code>``</code>使其变成中缀函数</li>
+<li>对中缀函数加<code>()</code>使其变成前缀函数</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; <span class="number">4</span> `div` <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="number">1</span> `max` <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="title">ghci</span>&gt; (+) <span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="title">ghci</span>&gt; (||) <span class="type">True</span> <span class="type">False</span></span><br><span class="line"><span class="type">True</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>列表是Haskell中很常见的数据类型，和Python中不同，Haskell中的列表中的所有元素必须是同一个类型。</p>
 <p>以下是列表常用的函数：</p>
 <ul>
@@ -87,7 +105,40 @@
 <h3 id="if-statement"><a href="#if-statement" class="headerlink" title="if statement"></a>if statement</h3><p>Haskell中的if语句为：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">if</span> ... <span class="keyword">then</span> ...</span><br><span class="line"><span class="title">else</span> ...</span><br><span class="line"><span class="comment">-- or if ... then ... else ...</span></span><br><span class="line"><span class="comment">-- or</span></span><br><span class="line"><span class="title">if</span> ... <span class="keyword">then</span> ...</span><br><span class="line"><span class="title">else</span> <span class="keyword">if</span> ... <span class="keyword">then</span> ...</span><br><span class="line"><span class="title">else</span> ...</span><br></pre></td></tr></table></figure>
 <p>其中最后一个else无论如何也不可以省去</p>
-<h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><h3 id="Function-application"><a href="#Function-application" class="headerlink" title="Function application"></a>Function application</h3><p>函数应用可以使用<code>$</code>，<code>$</code>是一个函数，它的类型是：</p>
+<h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><h3 id="Currying"><a href="#Currying" class="headerlink" title="Currying"></a>Currying</h3><p>Haskell中的函数是柯里化（Currying）的，可以看作所有函数都只接收一个参数，而接收两个参数的函数实际上是这个函数接收了第一个参数后返回了一个接收第二个参数的函数，然后用这个函数接收第二个参数，返回最终的结果。比如max函数，它的类型签名是：</p>
+<p style="text-align: center;">max :: Ord a => a -> a -> a</p>
+
+<p>可以看成a -&gt; (a -&gt; a)，即接收一个参数，返回一个类型为a -&gt; a的函数。比如max 1的类型签名是：</p>
+<p style="text-align: center;">max 1 :: (Ord a, Num a) => a -> a</p>
+
+<p>因此max 1 2，也就等同于(max 1) 2，即将函数max 1应用在数字2上</p>
+<p>同时，函数也可以接收函数作为参数，参数有函数的函数就被称为高阶函数（Higher Order Functions）</p>
+<h3 id="一些高阶函数"><a href="#一些高阶函数" class="headerlink" title="一些高阶函数"></a>一些高阶函数</h3><h4 id="zipWith"><a href="#zipWith" class="headerlink" title="zipWith"></a>zipWith</h4><p style="text-align: center;">zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]</p>
+
+<p>第一个参数为一个函数，然后接收两个列表，将其对应元素传入接收的函数中，得到的结果组成一个新的列表。如果两个传入的列表长度不同，以最短的列表为准，长列表中超出的元素省略。用例：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; zipWith (+) [<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">6</span>] [<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">3</span>]  </span><br><span class="line">[<span class="number">6</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">9</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; zipWith max [<span class="number">6</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>] [<span class="number">7</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>]  </span><br><span class="line">[<span class="number">7</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>]  </span><br></pre></td></tr></table></figure>
+
+<h4 id="flip"><a href="#flip" class="headerlink" title="flip"></a>flip</h4><p style="text-align: center;">flip :: (a -> b -> c) -> b -> a -> c</p>
+
+<p>flip函数接收一个二元函数，返回一个新的二元函数，将其输入的两个参数顺序反过来：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; zip [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] <span class="string">&quot;hello&quot;</span></span><br><span class="line">[(<span class="number">1</span>,&#x27;h&#x27;),(<span class="number">2</span>,&#x27;e&#x27;),(<span class="number">3</span>,&#x27;l&#x27;),(<span class="number">4</span>,&#x27;l&#x27;),(<span class="number">5</span>,&#x27;o&#x27;)]</span><br><span class="line"><span class="title">ghci</span>&gt; flip zip [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] <span class="string">&quot;hello&quot;</span>  </span><br><span class="line">[(&#x27;h&#x27;,<span class="number">1</span>),(&#x27;e&#x27;,<span class="number">2</span>),(&#x27;l&#x27;,<span class="number">3</span>),(&#x27;l&#x27;,<span class="number">4</span>),(&#x27;o&#x27;,<span class="number">5</span>)]</span><br></pre></td></tr></table></figure>
+
+<h4 id="map"><a href="#map" class="headerlink" title="map"></a>map</h4><p style="text-align: center;">map :: (a -> b) -> [a] -> [b]</p>
+
+<p>map函数接收一个函数f和一个列表a，将函数f应用在列表a的每个元素中，并返回得到的所有结果组成的列表b：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; map (+<span class="number">3</span>) [<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>]  </span><br><span class="line">[<span class="number">4</span>,<span class="number">8</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">9</span>]  </span><br></pre></td></tr></table></figure>
+
+<h4 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h4><p style="text-align: center;">filter :: (a -> Bool) -> [a] -> [a]</p>
+
+<p>filter函数接收一个函数f和一个列表a，将列表a中的每个元素传入函数f中，如果结果为True就保留，结果为False就抛弃，返回所有保留的元素组成的新列表：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; filter even [<span class="number">1.</span><span class="number">.10</span>]  </span><br><span class="line">[<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>] </span><br></pre></td></tr></table></figure>
+
+<h4 id="takeWhile"><a href="#takeWhile" class="headerlink" title="takeWhile"></a>takeWhile</h4><p style="text-align: center;">takeWhile :: (a -> Bool) -> [a] -> [a]</p>
+
+<p>takeWhile函数接收一个函数f和一个列表a，将列表a中从左向右每个元素传入函数f，直到结果为False停止，返回停止前传入的所有元素组成的新列表：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; takeWhile (/=&#x27; &#x27;) <span class="string">&quot;word1 word2&quot;</span></span><br><span class="line"><span class="string">&quot;word1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Function-application"><a href="#Function-application" class="headerlink" title="Function application"></a>Function application</h3><p>函数应用可以使用<code>$</code>，<code>$</code>是一个函数，它的类型是：</p>
 <p style="text-align: center;">($) :: (a -> b) -> a -> b</p>
 
 <p>它可以改变函数结合优先级，将左侧函数应用于全部右侧内容上，相当于给右侧整体加上了括号。否则函数默认左结合，会依次向右应用而不会应用在整体上。</p>
@@ -679,7 +730,7 @@
 
 <p>不难推测liftA就是fmap，<code>liftA2 f x1 x2</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2</code>，<code>liftA3 f x1 x2 x3</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2 &lt;*&gt; x3</code></p>
 <h4 id="lt-amp-gt"><a href="#lt-amp-gt" class="headerlink" title="&lt;* &amp; *&gt;"></a>&lt;* &amp; *&gt;</h4><p>类型类似函子的<code>&lt;$</code>和<code>$&gt;</code>：</p>
-<p style="text-align: center;">(<*) :: applicative f> f a -> f b -> f a</*)></p>
+<p style="text-align: center;">(&lt;*) :: Applicative f => f a -> f b -> f a</p>
 <p style="text-align: center;">(*>) :: Applicative f => f a -> f b -> f b</p>
 
 <p>&lt;*接收两个函子，如果两个函子中又一个为空，就返回空，否则返回的类型与第一个函子相同。*&gt;反过来</p>
@@ -704,7 +755,7 @@
 <p>它在对同一个参数应用不同函数时很有用：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; map (\f -&gt; f <span class="number">7</span>) [(&gt;<span class="number">4</span>), (&lt;<span class="number">10</span>), odd]  </span><br><span class="line">[<span class="type">True</span>,<span class="type">True</span>,<span class="type">True</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [(&gt;<span class="number">4</span>), (&lt;<span class="number">10</span>), odd] <span class="number">7</span>  </span><br><span class="line">[<span class="type">True</span>,<span class="type">True</span>,<span class="type">True</span>]  </span><br></pre></td></tr></table></figure>
 
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<h2 id="Monad"><a href="#Monad" class="headerlink" title="Monad"></a>Monad</h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
 <li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
 <li><a href="https://stackoverflow.com/questions/6172004/writing-foldl-using-foldr">Writing foldl using foldr - StackOverflow</a></li>
 <li><a href="https://blog.csdn.net/WinterShiver/article/details/103308165">Haskell：用foldr定义foldl</a></li>
@@ -902,7 +953,7 @@
 
 <p>不难推测liftA就是fmap，<code>liftA2 f x1 x2</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2</code>，<code>liftA3 f x1 x2 x3</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2 &lt;*&gt; x3</code></p>
 <h4 id="lt-amp-gt"><a href="#lt-amp-gt" class="headerlink" title="&lt;* &amp; *&gt;"></a>&lt;* &amp; *&gt;</h4><p>类型类似函子的<code>&lt;$</code>和<code>$&gt;</code>：</p>
-<p style="text-align: center;">(<*) :: applicative f> f a -> f b -> f a</*)></p>
+<p style="text-align: center;">(&lt;*) :: Applicative f => f a -> f b -> f a</p>
 <p style="text-align: center;">(*>) :: Applicative f => f a -> f b -> f b</p>
 
 <p>&lt;*接收两个函子，如果两个函子中又一个为空，就返回空，否则返回的类型与第一个函子相同。*&gt;反过来</p>
@@ -1330,7 +1381,40 @@
 <p><a href="/p/369b7e08.html">#3 &gt;</a></p>
 </div>
 
-<h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><h3 id="Function-application"><a href="#Function-application" class="headerlink" title="Function application"></a>Function application</h3><p>函数应用可以使用<code>$</code>，<code>$</code>是一个函数，它的类型是：</p>
+<h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><h3 id="Currying"><a href="#Currying" class="headerlink" title="Currying"></a>Currying</h3><p>Haskell中的函数是柯里化（Currying）的，可以看作所有函数都只接收一个参数，而接收两个参数的函数实际上是这个函数接收了第一个参数后返回了一个接收第二个参数的函数，然后用这个函数接收第二个参数，返回最终的结果。比如max函数，它的类型签名是：</p>
+<p style="text-align: center;">max :: Ord a => a -> a -> a</p>
+
+<p>可以看成a -&gt; (a -&gt; a)，即接收一个参数，返回一个类型为a -&gt; a的函数。比如max 1的类型签名是：</p>
+<p style="text-align: center;">max 1 :: (Ord a, Num a) => a -> a</p>
+
+<p>因此max 1 2，也就等同于(max 1) 2，即将函数max 1应用在数字2上</p>
+<p>同时，函数也可以接收函数作为参数，参数有函数的函数就被称为高阶函数（Higher Order Functions）</p>
+<h3 id="一些高阶函数"><a href="#一些高阶函数" class="headerlink" title="一些高阶函数"></a>一些高阶函数</h3><h4 id="zipWith"><a href="#zipWith" class="headerlink" title="zipWith"></a>zipWith</h4><p style="text-align: center;">zipWith :: (a -> b -> c) -> [a] -> [b] -> [c]</p>
+
+<p>第一个参数为一个函数，然后接收两个列表，将其对应元素传入接收的函数中，得到的结果组成一个新的列表。如果两个传入的列表长度不同，以最短的列表为准，长列表中超出的元素省略。用例：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; zipWith (+) [<span class="number">4</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">6</span>] [<span class="number">2</span>,<span class="number">6</span>,<span class="number">2</span>,<span class="number">3</span>]  </span><br><span class="line">[<span class="number">6</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">9</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; zipWith max [<span class="number">6</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>] [<span class="number">7</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">5</span>]  </span><br><span class="line">[<span class="number">7</span>,<span class="number">3</span>,<span class="number">2</span>,<span class="number">5</span>]  </span><br></pre></td></tr></table></figure>
+
+<h4 id="flip"><a href="#flip" class="headerlink" title="flip"></a>flip</h4><p style="text-align: center;">flip :: (a -> b -> c) -> b -> a -> c</p>
+
+<p>flip函数接收一个二元函数，返回一个新的二元函数，将其输入的两个参数顺序反过来：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; zip [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] <span class="string">&quot;hello&quot;</span></span><br><span class="line">[(<span class="number">1</span>,&#x27;h&#x27;),(<span class="number">2</span>,&#x27;e&#x27;),(<span class="number">3</span>,&#x27;l&#x27;),(<span class="number">4</span>,&#x27;l&#x27;),(<span class="number">5</span>,&#x27;o&#x27;)]</span><br><span class="line"><span class="title">ghci</span>&gt; flip zip [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] <span class="string">&quot;hello&quot;</span>  </span><br><span class="line">[(&#x27;h&#x27;,<span class="number">1</span>),(&#x27;e&#x27;,<span class="number">2</span>),(&#x27;l&#x27;,<span class="number">3</span>),(&#x27;l&#x27;,<span class="number">4</span>),(&#x27;o&#x27;,<span class="number">5</span>)]</span><br></pre></td></tr></table></figure>
+
+<h4 id="map"><a href="#map" class="headerlink" title="map"></a>map</h4><p style="text-align: center;">map :: (a -> b) -> [a] -> [b]</p>
+
+<p>map函数接收一个函数f和一个列表a，将函数f应用在列表a的每个元素中，并返回得到的所有结果组成的列表b：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; map (+<span class="number">3</span>) [<span class="number">1</span>,<span class="number">5</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">6</span>]  </span><br><span class="line">[<span class="number">4</span>,<span class="number">8</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">9</span>]  </span><br></pre></td></tr></table></figure>
+
+<h4 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h4><p style="text-align: center;">filter :: (a -> Bool) -> [a] -> [a]</p>
+
+<p>filter函数接收一个函数f和一个列表a，将列表a中的每个元素传入函数f中，如果结果为True就保留，结果为False就抛弃，返回所有保留的元素组成的新列表：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; filter even [<span class="number">1.</span><span class="number">.10</span>]  </span><br><span class="line">[<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">10</span>] </span><br></pre></td></tr></table></figure>
+
+<h4 id="takeWhile"><a href="#takeWhile" class="headerlink" title="takeWhile"></a>takeWhile</h4><p style="text-align: center;">takeWhile :: (a -> Bool) -> [a] -> [a]</p>
+
+<p>takeWhile函数接收一个函数f和一个列表a，将列表a中从左向右每个元素传入函数f，直到结果为False停止，返回停止前传入的所有元素组成的新列表：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; takeWhile (/=&#x27; &#x27;) <span class="string">&quot;word1 word2&quot;</span></span><br><span class="line"><span class="string">&quot;word1&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Function-application"><a href="#Function-application" class="headerlink" title="Function application"></a>Function application</h3><p>函数应用可以使用<code>$</code>，<code>$</code>是一个函数，它的类型是：</p>
 <p style="text-align: center;">($) :: (a -> b) -> a -> b</p>
 
 <p>它可以改变函数结合优先级，将左侧函数应用于全部右侧内容上，相当于给右侧整体加上了括号。否则函数默认左结合，会依次向右应用而不会应用在整体上。</p>
@@ -1448,6 +1532,24 @@
 <p><a href="/p/b3ca5c18.html">&lt; #0</a></p>
 <p><a href="/p/53e482b7.html">#2 &gt;</a></p>
 </div>
+
+<h2 id="基础运算"><a href="#基础运算" class="headerlink" title="基础运算"></a>基础运算</h2><ul>
+<li><code>+ - * / ()</code>：加减乘除</li>
+<li><code>div</code>：整除</li>
+<li><code>mod</code>：取模</li>
+<li><code>True False</code>：布尔值</li>
+<li><code>|| &amp;&amp; not</code>：或且非</li>
+<li><code>==</code>：条件判断，相等</li>
+<li><code>/=</code>：条件判断，不等</li>
+</ul>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p>Haskell中调用函数不加括号，先写出函数名，然后逐个列出参数，用空格隔开：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; max <span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>前缀（prefix）函数与中缀（infix）函数转换：</p>
+<ul>
+<li>对前缀函数加<code>``</code>使其变成中缀函数</li>
+<li>对中缀函数加<code>()</code>使其变成前缀函数</li>
+</ul>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; <span class="number">4</span> `div` <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="number">1</span> `max` <span class="number">2</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="title">ghci</span>&gt; (+) <span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line"><span class="title">ghci</span>&gt; (||) <span class="type">True</span> <span class="type">False</span></span><br><span class="line"><span class="type">True</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>列表是Haskell中很常见的数据类型，和Python中不同，Haskell中的列表中的所有元素必须是同一个类型。</p>
 <p>以下是列表常用的函数：</p>
