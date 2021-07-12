@@ -1382,6 +1382,7 @@
 </div>
 
 <h2 id="Higher-Order-Functions"><a href="#Higher-Order-Functions" class="headerlink" title="Higher Order Functions"></a>Higher Order Functions</h2><h3 id="Currying"><a href="#Currying" class="headerlink" title="Currying"></a>Currying</h3><p>Haskell中的函数是柯里化（Currying）的，可以看作所有函数都只接收一个参数，而接收两个参数的函数实际上是这个函数接收了第一个参数后返回了一个接收第二个参数的函数，然后用这个函数接收第二个参数，返回最终的结果。比如max函数，它的类型签名是：</p>
+<span id="more"></span>
 <p style="text-align: center;">max :: Ord a => a -> a -> a</p>
 
 <p>可以看成a -&gt; (a -&gt; a)，即接收一个参数，返回一个类型为a -&gt; a的函数。比如max 1的类型签名是：</p>
@@ -1418,7 +1419,7 @@
 <p style="text-align: center;">($) :: (a -> b) -> a -> b</p>
 
 <p>它可以改变函数结合优先级，将左侧函数应用于全部右侧内容上，相当于给右侧整体加上了括号。否则函数默认左结合，会依次向右应用而不会应用在整体上。</p>
-<span id="more"></span>
+<!--more-->
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">f</span> $ g x</span><br><span class="line"><span class="comment">-- 等价于</span></span><br><span class="line"><span class="title">f</span> (g x)</span><br><span class="line"><span class="comment">-----</span></span><br><span class="line"><span class="title">f</span> g x</span><br><span class="line"><span class="comment">-- 等价于</span></span><br><span class="line">(f g) x</span><br></pre></td></tr></table></figure>
 <h3 id="Function-Composition"><a href="#Function-Composition" class="headerlink" title="Function Composition"></a>Function Composition</h3><p>函数复合可以使用<code>.</code>，<code>.</code>也是一个函数，它的类型是：</p>
 <p style="text-align: center;">(.) :: (b -> c) -> (a -> b) -> a -> c</p>
@@ -1537,7 +1538,7 @@
 <li><code>+ - * / ()</code>：加减乘除</li>
 <li><code>div</code>：整除</li>
 <li><code>mod</code>：取模</li>
-<li><code>True False</code>：布尔值</li>
+<li><code>True False</code>：布尔值<span id="more"></span></li>
 <li><code>|| &amp;&amp; not</code>：或且非</li>
 <li><code>==</code>：条件判断，相等</li>
 <li><code>/=</code>：条件判断，不等</li>
@@ -1553,7 +1554,7 @@
 
 <h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><p>列表是Haskell中很常见的数据类型，和Python中不同，Haskell中的列表中的所有元素必须是同一个类型。</p>
 <p>以下是列表常用的函数：</p>
-<span id="more"></span>
+<!--more-->
 <ul>
 <li><code>(++)</code> :: [a] -&gt; [a] -&gt; [a]：合并两个列表</li>
 <li><code>(:)</code> :: a -&gt; [a] -&gt; [a]：将单个元素并入列表。[1, 2, 3]是1:2:3:[]的语法糖</li>
