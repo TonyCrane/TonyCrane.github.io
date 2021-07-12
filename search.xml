@@ -272,6 +272,12 @@
 <p style="text-align: center;">type String = [Char]</p>
 
 <p>在所有需要使用字符串（即[Char]）的地方都可以使用String来代替，它们是完全一致的，只是String更简便易读。<br>同时，类型别名也可以接收类型参数</p>
+<h4 id="newtype-keyword"><a href="#newtype-keyword" class="headerlink" title="newtype keyword"></a>newtype keyword</h4><p>除了<code>data</code>、<code>type</code>关键字之外，还可以用<code>newtype</code>关键字来定义一个新的类型，比如<code>Control.Applicative</code>模块中的ZipList：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">newtype</span> <span class="type">ZipList</span> a = &#123; <span class="title">getZipList</span> :: [<span class="title">a</span>] &#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>不同于type，它不是别名，可以使用record语法来直接定义取出值的函数</li>
+<li>不同于data，它只能有一个值构造器，但是速度要比data快，而且更加懒惰</li>
+</ul>
 <h4 id="Recursive-data-structures"><a href="#Recursive-data-structures" class="headerlink" title="Recursive data structures"></a>Recursive data structures</h4><p>一个类型也可以递归定义，比如一颗二叉树：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Tree</span> a = <span class="type">EmptyTree</span> | <span class="type">Node</span> a (<span class="type">Tree</span> <span class="title">a</span>) (<span class="type">Tree</span> <span class="title">a</span>) <span class="keyword">deriving</span> (<span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Eq</span>)  </span></span><br></pre></td></tr></table></figure>
 
@@ -578,8 +584,134 @@
 <p>void函数把一个函子内部的全部元素都变成空（<code>()</code>），<code>void x</code>相当于<code>() &lt;$ x</code>：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; void [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[(), (), ()]</span><br><span class="line"><span class="title">ghci</span>&gt; void (<span class="type">Just</span> <span class="number">2</span>)</span><br><span class="line"><span class="type">Just</span> ()</span><br></pre></td></tr></table></figure>
 
+<h2 id="Applicative-Functor"><a href="#Applicative-Functor" class="headerlink" title="Applicative Functor"></a>Applicative Functor</h2><p>应用函子（Applicative Functor）是函子的升级版，它包含在<code>Control.Applicative</code>模块中。</p>
+<p>fmap进行的操作是将一个普通一元函数应用在一个函子内部。而如果要将一个包含函数的函子应用在另一个函子上，fmap就处理不了了，但是应用函子的方法可以处理。应用函子的定义：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> (<span class="type">Functor</span> <span class="title">f</span>) =&gt; <span class="type">Applicative</span> f <span class="keyword">where</span></span></span><br><span class="line">    pure :: a -&gt; f a</span><br><span class="line">    (&lt;*&gt;) :: f (a -&gt; b) -&gt; f a -&gt; f b</span><br></pre></td></tr></table></figure>
+<p>应用函子要求实现两个函数：</p>
+<ul>
+<li><code>pure</code> :: a -&gt; f a，不难理解，pure接收一个值，并将其放在默认的上下文/容器中。对于列表，pure = []；对于Maybe，pure = Just</li>
+<li><code>&lt;*&gt;</code> :: f (a -&gt; b) -&gt; f a -&gt; f b，类似于fmap :: (a -&gt; b) -&gt; f a -&gt; f b，但不同的是&lt;*&gt;的第一个参数的类型是f (a -&gt; b)不是a -&gt; b。所以&lt;*&gt;的第一个参数是在上下文中的函数，而不是一个普通函数。换句话说，&lt;*&gt;接收一个装有函数的函子和另一个函子，应用函数后返回新的函子。</li>
+</ul>
+<h3 id="Applicative-Functor实例"><a href="#Applicative-Functor实例" class="headerlink" title="Applicative Functor实例"></a>Applicative Functor实例</h3><h4 id="Maybe-1"><a href="#Maybe-1" class="headerlink" title="Maybe"></a>Maybe</h4><p>Maybe是一个应用函子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></span><br><span class="line">    pure = <span class="type">Just</span></span><br><span class="line">    <span class="type">Nothing</span> &lt;*&gt; _ = <span class="type">Nothing</span></span><br><span class="line">    (<span class="type">Just</span> f) &lt;*&gt; something = fmap f something</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pure</code>函数：将一个值放在默认的上下文中，而对于Maybe，默认的上下文就是Just，所以pure x = Just x</li>
+<li><code>&lt;*&gt;</code>函数：将装有函数的函子中的函数应用另一个函子中<ul>
+<li>第一个参数是Nothing，即第一个函子不包含函数，那返回的结果就也会是Nothing</li>
+<li>第一个参数是装有函数f的函子Just f，将其中的函数f应用在函子something中，只需要将f提取出来使用fmap应用在函子something中即可</li>
+</ul>
+</li>
+</ul>
+<p>实际应用的例子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; <span class="type">Just</span> (+<span class="number">3</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; pure (+<span class="number">3</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; (+<span class="number">3</span>) &lt;$&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Nothing</span> &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Nothing</span></span><br></pre></td></tr></table></figure>
+<p>第一个例子，Just (+3)是一个包含函数(+3)的函子，将其应用在函子Just 9中，将Just (+3)中的函数(+3)提取出来，应用在Just 9中，得到了Just 12</p>
+<p>第二个例子，可以发现，在这里pure (+3)和Just (+3)等效，因为pure将函数(+3)放在默认上下文中，也就是Just中了</p>
+<p>而&lt;*&gt;能做的不止这些，他可以连续传入更多函子作为参数，比如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; pure (+) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span> &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; pure (\x y z -&gt; x + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span> &lt;*&gt; <span class="type">Just</span> <span class="number">4</span> &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>&lt;*&gt;函数一样是默认左结合的，pure (+) &lt;*&gt; Just 3 &lt;*&gt; Just 9相当于(pure (+) &lt;*&gt; Just 3) &lt;*&gt; Just 9，而pure (+) &lt;*&gt; Just 3将(+)应用在Just 3上，得到的就是Just (+3)一个包含函数的函子，又将其通过&lt;*&gt;应用在了Just 9上，得到了Just 12:</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">  pure (\x y z -&gt; x + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span> &lt;*&gt; <span class="type">Just</span> <span class="number">4</span> &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= (pure (\x y z -&gt; x + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">4</span> &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= (<span class="type">Just</span> (\y z -&gt; <span class="number">3</span> + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">4</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= <span class="type">Just</span> (\z -&gt; <span class="number">3</span> + <span class="number">4</span> + z) &lt;*&gt; <span class="type">Just</span> <span class="number">5</span> = <span class="type">Just</span> (+<span class="number">7</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= <span class="type">Just</span> <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>所以可以使用类似pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; …来将一个普通多元函数f应用在多个函子上。</p>
+<p>而且pure f &lt;*&gt; x实际上先将普通函数f放在上下文中，然后执行&lt;*&gt;时再将其提取出来执行fmap，所以它就相当于将普通函数应用在函子x上，即fmap f x，也可以写成f &lt;$&gt; x。所以常用的写法就是：</p>
+<p style="text-align: center;">f <$> x <*> y <*> ...</*></*></$></p>
 
+<h4 id="-1"><a href="#-1" class="headerlink" title="[]"></a>[]</h4><p>列表也是一个应用函子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> [] <span class="keyword">where</span></span></span><br><span class="line">    pure x = [x]</span><br><span class="line">    fs &lt;*&gt; xs = [f x | f &lt;- fs, x &lt;- xs]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pure</code>函数：对于列表而言，一个值的最小上下文就是只包含这个值的列表[x]</li>
+<li><code>&lt;*&gt;</code>函数：列表的&lt;*&gt;函数是通过列表推导来实现的。因为不同于Maybe的Just只包含一个值，列表可以包含很多值，第一个传入的列表中可能会包含很多函数，第二个传入的列表也会包含很多值，所以就需要先从第一个列表中取出一个函数然后依次应用在第二个列表的每个值中，再取出第一个列表中的第二个函数应用在第二个列表的每个值中……最终返回得到的所有结果的列表</li>
+</ul>
+<p>使用例子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; [(+<span class="number">3</span>), (*<span class="number">2</span>)] &lt;*&gt; [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">[<span class="number">4</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [(+), (*)]  &lt;*&gt;  [<span class="number">1</span>, <span class="number">2</span>]  &lt;*&gt;  [<span class="number">3</span>, <span class="number">4</span>]  </span><br><span class="line">[<span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
 
+<h4 id="IO-1"><a href="#IO-1" class="headerlink" title="IO"></a>IO</h4><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> <span class="type">IO</span> <span class="keyword">where</span></span></span><br><span class="line">    pure = return</span><br><span class="line">    a &lt;*&gt; b = <span class="keyword">do</span></span><br><span class="line">        f &lt;- a</span><br><span class="line">        x &lt;- b</span><br><span class="line">        return (f x)</span><br></pre></td></tr></table></figure>
+<p>也不难理解，pure函数直接将传入的值return，相当于放在了IO的上下文中。而&lt;*&gt;函数先将两个IO中内容提取出来，然后应用函数后return，形成新的IO函子</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; (++) &lt;$&gt; getLine &lt;*&gt; getLine</span><br><span class="line"><span class="type">Line1</span></span><br><span class="line"><span class="type">Line2</span></span><br><span class="line"><span class="string">&quot;Line1Line2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="gt-r-1"><a href="#gt-r-1" class="headerlink" title="(-&gt;) r"></a>(-&gt;) r</h4><p>(-&gt;) r同样也是一个应用函子，和函子的分析一样，先来分析它的&lt;*&gt;函数的类型签名：</p>
+<p style="text-align: center;"><*> :: f (a -> b) -> f a -> f b</*></p>
+
+<p>其中f为(-&gt;) r，将其代入并替换为中缀：</p>
+<p style="text-align: center;"><*> :: (r -> a -> b) -> (r -> a) -> (r -> b)</*></p>
+
+<p>可以看出它接收两个函数f :: r -&gt; a -&gt; b、g :: r -&gt; a，返回另一个函数h :: (r -&gt; b)</p>
+<p>那么返回的函数的输入为r，输出为b，所以先对输入应用函数g得到a，然后在对r和a应用f得到b，所以推测&lt;*&gt;函数的操作就是：</p>
+<p style="text-align: center;">\x -> f x (g x)</p>
+
+<p>于是：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> ((-&gt;) r) <span class="keyword">where</span></span></span><br><span class="line">    pure x = (\_ -&gt; x)</span><br><span class="line">    f &lt;*&gt; g = \x -&gt; f x (g x)</span><br></pre></td></tr></table></figure>
+<p>将一个值放在函数的上下文中，最小上下文就应该返回这个值本身，所以pure函数定义为(_ -&gt; x)，即无论输入什么，都返回x</p>
+<p>应用函子的&lt;*&gt;函数接收两个函子，返回一个新的函子。对于(-&gt;) r，它接收两个函数，返回一个新的函数。具体例子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; (+) &lt;$&gt; (+<span class="number">3</span>) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line"><span class="number">508</span></span><br></pre></td></tr></table></figure>
+<p>执行这句时发生了什么？：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">  (+) &lt;$&gt; (+<span class="number">3</span>) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= ((+) &lt;$&gt; (+<span class="number">3</span>)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= ((+) . (+<span class="number">3</span>)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span> = (\a -&gt; (+) ((+<span class="number">3</span>) a)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= (\a b -&gt; (a + <span class="number">3</span> + b)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= (\x -&gt; x + <span class="number">3</span> + ((*<span class="number">100</span>) x)) $ <span class="number">5</span></span><br><span class="line">= (\x -&gt; x + <span class="number">3</span> + x * <span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= <span class="number">5</span> + <span class="number">3</span> + <span class="number">5</span> * <span class="number">100</span> = <span class="number">508</span></span><br><span class="line">= (<span class="number">5</span> + <span class="number">3</span>) + (<span class="number">5</span> * <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<p>所以就相当于先对输入分别执行(+3)和(*100)，然后将两个结果执行了(+)</p>
+<p>同样：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; (\x y z -&gt; [x,y,z]) &lt;$&gt; (+<span class="number">3</span>) &lt;*&gt; (*<span class="number">2</span>) &lt;*&gt; (/<span class="number">2</span>) $ <span class="number">5</span>  </span><br><span class="line">[<span class="number">8.0</span>,<span class="number">10.0</span>,<span class="number">2.5</span>]  </span><br></pre></td></tr></table></figure>
+<p>先对5分别执行(+3)、(*2)、(/2)，然后将得到的三个结果传入(\x y z -&gt; [x,y,z])得到了最终的结果</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">  f &lt;$&gt; g &lt;*&gt; h &lt;*&gt; i</span><br><span class="line">= (\x -&gt; f (g x) (h x) (i x))</span><br></pre></td></tr></table></figure>
+
+<h4 id="ZipList"><a href="#ZipList" class="headerlink" title="ZipList"></a>ZipList</h4><p>普通列表实现的&lt;*&gt;函数是将每个函数应用在所有值上，但还有一种实现方法是将每个函数应用在对应值上，因为同一个类型不能存在同一函数的两种实现形式，所以引入了一个新的列表ZipList，包含在<code>Control.Applicative</code>模块中</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> <span class="type">ZipList</span> <span class="keyword">where</span></span></span><br><span class="line">    pure x = <span class="type">ZipList</span> (repeat x)</span><br><span class="line">    <span class="type">ZipList</span> fs &lt;*&gt; <span class="type">ZipList</span> xs = <span class="type">ZipList</span> (zipWith ($) fs xs)</span><br></pre></td></tr></table></figure>
+<p>但是ZipList并不是Show的实例，所以不能直接显示出来，要使用<code>getZipList</code>来获取它内部的列表：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; getZipList $ (+) &lt;$&gt; <span class="type">ZipList</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] &lt;*&gt; <span class="type">ZipList</span> [<span class="number">100</span>,<span class="number">100.</span>.]  </span><br><span class="line">[<span class="number">101</span>,<span class="number">102</span>,<span class="number">103</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; getZipList $ (,,) &lt;$&gt; <span class="type">ZipList</span> <span class="string">&quot;dog&quot;</span> &lt;*&gt; <span class="type">ZipList</span> <span class="string">&quot;cat&quot;</span> &lt;*&gt; <span class="type">ZipList</span> <span class="string">&quot;rat&quot;</span>  </span><br><span class="line">[(&#x27;d&#x27;,&#x27;c&#x27;,&#x27;r&#x27;),(&#x27;o&#x27;,&#x27;a&#x27;,&#x27;a&#x27;),(&#x27;g&#x27;,&#x27;t&#x27;,&#x27;t&#x27;)]  </span><br></pre></td></tr></table></figure>
+
+<h3 id="Applicative-Functor-Laws"><a href="#Applicative-Functor-Laws" class="headerlink" title="Applicative Functor Laws"></a>Applicative Functor Laws</h3><p>应用函子一般有四个定律，都是保证pure的正确性的：</p>
+<ol>
+<li><code>Identity law</code>：pure id &lt;*&gt; v = v</li>
+<li><code>Homomorphism</code>：pure f &lt;*&gt; pure x = pure (f x)</li>
+<li><code>Interchange</code>：u &lt;*&gt; pure v = pure ($ v) &lt;*&gt; u</li>
+<li><code>Composition</code>：u &lt;*&gt; (v &lt;*&gt; w) = pure (.) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w</li>
+</ol>
+<h3 id="Intuition-1"><a href="#Intuition-1" class="headerlink" title="Intuition"></a>Intuition</h3><p>理解应用函子的方式也是将其看作是计算上下文（context），比如要计算：<br>$$<br>[[\ \ g\ x_1\ x_2\ \cdots\ x_n\ \ ]]<br>$$</p>
+<p>其中$x_i$的类型是$f\ t_i$，$f$是应用函子（看作上下文）。而函数$g$的类型是：</p>
+<p>$$<br>t_1\to t_2\to\cdots\to t_n\to t<br>$$</p>
+<p>所以双括号（idiom brackets）的作用是将一个普通函数应用在包含在上下文中的参数上。$g\ x_1$可以通过fmap来执行，将$g$提升（lift）到$x_1$的上下文中，然后应用在$x_1$上。但是fmap返回的结果是一个函子，换句话说，$g\ x_1$结果的类型是：</p>
+<p>$$<br>f\ \ (t_2\to t_3\to\cdots\to t_n\to t)<br>$$</p>
+<p>但是fmap并不能将上下文中的函数应用在上下文中的参数上，于是应用函子的&lt;*&gt;函数提供了这个方法，所以计算$[[\ g\ x_1\ x_2\ \cdots\ x_n\ ]]$，只需要：</p>
+<p style="text-align: center;">g <$> x1 <*> x2 <*> ... <*> xn</*></*></*></$></p>
+
+<p>而pure函数的作用就是将一个不在上下文中的值（函数或参数）提升到上下文中，但不进行其他操作。比如参数$x_2$如果不在上下文中，需要用pure提升到上下文中才能按上面计算：</p>
+<p style="text-align: center;">g <$> x1 <*> pure x2 <*> ... <*> xn</*></*></*></$></p>
+
+<h3 id="常用函数-1"><a href="#常用函数-1" class="headerlink" title="常用函数"></a>常用函数</h3><h4 id="liftA-amp-liftA2-amp-liftA3"><a href="#liftA-amp-liftA2-amp-liftA3" class="headerlink" title="liftA &amp; liftA2 &amp; liftA3"></a>liftA &amp; liftA2 &amp; liftA3</h4><p style="text-align: center;">liftA :: Applicative f => (a -> b) -> f a -> f b</p>
+<p style="text-align: center;">liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c</p>
+<p style="text-align: center;">liftA3 :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d</p>
+
+<p>不难推测liftA就是fmap，<code>liftA2 f x1 x2</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2</code>，<code>liftA3 f x1 x2 x3</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2 &lt;*&gt; x3</code></p>
+<h4 id="lt-amp-gt"><a href="#lt-amp-gt" class="headerlink" title="&lt;* &amp; *&gt;"></a>&lt;* &amp; *&gt;</h4><p>类型类似函子的<code>&lt;$</code>和<code>$&gt;</code>：</p>
+<p style="text-align: center;">(<*) :: applicative f> f a -> f b -> f a</*)></p>
+<p style="text-align: center;">(*>) :: Applicative f => f a -> f b -> f b</p>
+
+<p>&lt;*接收两个函子，如果两个函子中又一个为空，就返回空，否则返回的类型与第一个函子相同。*&gt;反过来</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; <span class="type">Just</span> <span class="number">3</span> &lt;* <span class="type">Just</span> <span class="number">4</span></span><br><span class="line"><span class="type">Just</span> <span class="number">3</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Just</span> <span class="number">3</span> *&gt; <span class="type">Just</span> <span class="number">4</span></span><br><span class="line"><span class="type">Just</span> <span class="number">4</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Nothing</span> &lt;* <span class="type">Just</span> <span class="number">3</span></span><br><span class="line"><span class="type">Nothing</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Nothing</span> *&gt; <span class="type">Just</span> <span class="number">3</span></span><br><span class="line"><span class="type">Nothing</span></span><br><span class="line"><span class="title">ghci</span>&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] &lt;* [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] *&gt; [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [] &lt;* [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[]</span><br><span class="line"><span class="title">ghci</span>&gt; [] *&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<h4 id="lt-gt-1"><a href="#lt-gt-1" class="headerlink" title="&lt;**&gt;"></a>&lt;**&gt;</h4><p style="text-align: center;">(**) :: Applicative f => f a -> f (a -> b) -> f b</p>
+
+<p>接收的参数是&lt;*&gt;反转过来的，即先接收一个参数函子，然后接收一个函数函子，在将其应用返回。但是和flip(&lt;*&gt;)不同，它先取参数函子的每个参数，然后再取函数函子中的函数逐个应用：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; [(+<span class="number">1</span>), (+<span class="number">2</span>), (+<span class="number">3</span>)] &lt;*&gt; [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [<span class="number">1</span>, <span class="number">2</span>] &lt;**&gt; [(+<span class="number">1</span>), (+<span class="number">2</span>), (+<span class="number">3</span>)]</span><br><span class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; flip(&lt;*&gt;) [<span class="number">1</span>, <span class="number">2</span>] [(+<span class="number">1</span>), (+<span class="number">2</span>), (+<span class="number">3</span>)]</span><br><span class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="when-amp-unless"><a href="#when-amp-unless" class="headerlink" title="when &amp; unless"></a>when &amp; unless</h4><p style="text-align: center;">when :: Applicative f => Bool -> f () -> f ()</p>
+
+<p>传入的第一个是一个结果为Bool类型的测试，如果测试为True，则调用第二个参数，否则返回pure ()。（when函数在上文IO操作中使用过）</p>
+<p>unless则与when相反，测试为True返回pure ()</p>
+<h4 id="sequenceA"><a href="#sequenceA" class="headerlink" title="sequenceA"></a>sequenceA</h4><p style="text-align: center;">sequenceA :: (Traversable t, Applicative f) => t (f a) -> f (t a)</p>
+
+<p>应用在列表上时，它的类型相当于：</p>
+<p style="text-align: center;">[f a] -> f [a]</p>
+
+<p>所以在列表上它的使用方法：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; sequenceA [<span class="type">Just</span> <span class="number">3</span>, <span class="type">Just</span> <span class="number">2</span>, <span class="type">Just</span> <span class="number">1</span>]  </span><br><span class="line"><span class="type">Just</span> [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [<span class="type">Just</span> <span class="number">3</span>, <span class="type">Nothing</span>, <span class="type">Just</span> <span class="number">1</span>]  </span><br><span class="line"><span class="type">Nothing</span>  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [(+<span class="number">3</span>),(+<span class="number">2</span>),(+<span class="number">1</span>)] <span class="number">3</span>  </span><br><span class="line">[<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]]  </span><br><span class="line">[[<span class="number">1</span>,<span class="number">4</span>],[<span class="number">1</span>,<span class="number">5</span>],[<span class="number">1</span>,<span class="number">6</span>],[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">2</span>,<span class="number">5</span>],[<span class="number">2</span>,<span class="number">6</span>],[<span class="number">3</span>,<span class="number">4</span>],[<span class="number">3</span>,<span class="number">5</span>],[<span class="number">3</span>,<span class="number">6</span>]]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],[<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>],[]]  </span><br><span class="line">[]  </span><br></pre></td></tr></table></figure>
+<p>它在对同一个参数应用不同函数时很有用：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; map (\f -&gt; f <span class="number">7</span>) [(&gt;<span class="number">4</span>), (&lt;<span class="number">10</span>), odd]  </span><br><span class="line">[<span class="type">True</span>,<span class="type">True</span>,<span class="type">True</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [(&gt;<span class="number">4</span>), (&lt;<span class="number">10</span>), odd] <span class="number">7</span>  </span><br><span class="line">[<span class="type">True</span>,<span class="type">True</span>,<span class="type">True</span>]  </span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+<li><a href="https://stackoverflow.com/questions/6172004/writing-foldl-using-foldr">Writing foldl using foldr - StackOverflow</a></li>
+<li><a href="https://blog.csdn.net/WinterShiver/article/details/103308165">Haskell：用foldr定义foldl</a></li>
+<li><a href="https://wiki.haskell.org/Typeclassopedia">Haskell wiki - Typeclassopedia</a></li>
+<li><a href="https://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, And Monads In Pictures</a></li>
+<li><a href="http://02s949.coding-pages.com/2018/08/15/haskellc/">Haskell学习 - functor</a></li>
+</ul>
 <p style="text-align: center; font-size: x-large; font-weight: bolder"> 未完待续 </p>]]></content>
       <tags>
         <tag>Haskell</tag>
@@ -675,8 +807,132 @@
 <p>void函数把一个函子内部的全部元素都变成空（<code>()</code>），<code>void x</code>相当于<code>() &lt;$ x</code>：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; void [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[(), (), ()]</span><br><span class="line"><span class="title">ghci</span>&gt; void (<span class="type">Just</span> <span class="number">2</span>)</span><br><span class="line"><span class="type">Just</span> ()</span><br></pre></td></tr></table></figure>
 
-<p style="text-align: center; font-size: x-large; font-weight: bolder"> 未完待续 </p>
+<h2 id="Applicative-Functor"><a href="#Applicative-Functor" class="headerlink" title="Applicative Functor"></a>Applicative Functor</h2><p>应用函子（Applicative Functor）是函子的升级版，它包含在<code>Control.Applicative</code>模块中。</p>
+<p>fmap进行的操作是将一个普通一元函数应用在一个函子内部。而如果要将一个包含函数的函子应用在另一个函子上，fmap就处理不了了，但是应用函子的方法可以处理。应用函子的定义：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> (<span class="type">Functor</span> <span class="title">f</span>) =&gt; <span class="type">Applicative</span> f <span class="keyword">where</span></span></span><br><span class="line">    pure :: a -&gt; f a</span><br><span class="line">    (&lt;*&gt;) :: f (a -&gt; b) -&gt; f a -&gt; f b</span><br></pre></td></tr></table></figure>
+<p>应用函子要求实现两个函数：</p>
+<ul>
+<li><code>pure</code> :: a -&gt; f a，不难理解，pure接收一个值，并将其放在默认的上下文/容器中。对于列表，pure = []；对于Maybe，pure = Just</li>
+<li><code>&lt;*&gt;</code> :: f (a -&gt; b) -&gt; f a -&gt; f b，类似于fmap :: (a -&gt; b) -&gt; f a -&gt; f b，但不同的是&lt;*&gt;的第一个参数的类型是f (a -&gt; b)不是a -&gt; b。所以&lt;*&gt;的第一个参数是在上下文中的函数，而不是一个普通函数。换句话说，&lt;*&gt;接收一个装有函数的函子和另一个函子，应用函数后返回新的函子。</li>
+</ul>
+<h3 id="Applicative-Functor实例"><a href="#Applicative-Functor实例" class="headerlink" title="Applicative Functor实例"></a>Applicative Functor实例</h3><h4 id="Maybe-1"><a href="#Maybe-1" class="headerlink" title="Maybe"></a>Maybe</h4><p>Maybe是一个应用函子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> <span class="type">Maybe</span> <span class="keyword">where</span></span></span><br><span class="line">    pure = <span class="type">Just</span></span><br><span class="line">    <span class="type">Nothing</span> &lt;*&gt; _ = <span class="type">Nothing</span></span><br><span class="line">    (<span class="type">Just</span> f) &lt;*&gt; something = fmap f something</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pure</code>函数：将一个值放在默认的上下文中，而对于Maybe，默认的上下文就是Just，所以pure x = Just x</li>
+<li><code>&lt;*&gt;</code>函数：将装有函数的函子中的函数应用另一个函子中<ul>
+<li>第一个参数是Nothing，即第一个函子不包含函数，那返回的结果就也会是Nothing</li>
+<li>第一个参数是装有函数f的函子Just f，将其中的函数f应用在函子something中，只需要将f提取出来使用fmap应用在函子something中即可</li>
+</ul>
+</li>
+</ul>
+<p>实际应用的例子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; <span class="type">Just</span> (+<span class="number">3</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; pure (+<span class="number">3</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; (+<span class="number">3</span>) &lt;$&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Nothing</span> &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Nothing</span></span><br></pre></td></tr></table></figure>
+<p>第一个例子，Just (+3)是一个包含函数(+3)的函子，将其应用在函子Just 9中，将Just (+3)中的函数(+3)提取出来，应用在Just 9中，得到了Just 12</p>
+<p>第二个例子，可以发现，在这里pure (+3)和Just (+3)等效，因为pure将函数(+3)放在默认上下文中，也就是Just中了</p>
+<p>而&lt;*&gt;能做的不止这些，他可以连续传入更多函子作为参数，比如：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; pure (+) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span> &lt;*&gt; <span class="type">Just</span> <span class="number">9</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br><span class="line"><span class="title">ghci</span>&gt; pure (\x y z -&gt; x + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span> &lt;*&gt; <span class="type">Just</span> <span class="number">4</span> &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line"><span class="type">Just</span> <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>&lt;*&gt;函数一样是默认左结合的，pure (+) &lt;*&gt; Just 3 &lt;*&gt; Just 9相当于(pure (+) &lt;*&gt; Just 3) &lt;*&gt; Just 9，而pure (+) &lt;*&gt; Just 3将(+)应用在Just 3上，得到的就是Just (+3)一个包含函数的函子，又将其通过&lt;*&gt;应用在了Just 9上，得到了Just 12:</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">  pure (\x y z -&gt; x + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span> &lt;*&gt; <span class="type">Just</span> <span class="number">4</span> &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= (pure (\x y z -&gt; x + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">3</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">4</span> &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= (<span class="type">Just</span> (\y z -&gt; <span class="number">3</span> + y + z) &lt;*&gt; <span class="type">Just</span> <span class="number">4</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= <span class="type">Just</span> (\z -&gt; <span class="number">3</span> + <span class="number">4</span> + z) &lt;*&gt; <span class="type">Just</span> <span class="number">5</span> = <span class="type">Just</span> (+<span class="number">7</span>) &lt;*&gt; <span class="type">Just</span> <span class="number">5</span></span><br><span class="line">= <span class="type">Just</span> <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<p>所以可以使用类似pure f &lt;*&gt; x &lt;*&gt; y &lt;*&gt; …来将一个普通多元函数f应用在多个函子上。</p>
+<p>而且pure f &lt;*&gt; x实际上先将普通函数f放在上下文中，然后执行&lt;*&gt;时再将其提取出来执行fmap，所以它就相当于将普通函数应用在函子x上，即fmap f x，也可以写成f &lt;$&gt; x。所以常用的写法就是：</p>
+<p style="text-align: center;">f <$> x <*> y <*> ...</*></*></$></p>
 
+<h4 id="-1"><a href="#-1" class="headerlink" title="[]"></a>[]</h4><p>列表也是一个应用函子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> [] <span class="keyword">where</span></span></span><br><span class="line">    pure x = [x]</span><br><span class="line">    fs &lt;*&gt; xs = [f x | f &lt;- fs, x &lt;- xs]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pure</code>函数：对于列表而言，一个值的最小上下文就是只包含这个值的列表[x]</li>
+<li><code>&lt;*&gt;</code>函数：列表的&lt;*&gt;函数是通过列表推导来实现的。因为不同于Maybe的Just只包含一个值，列表可以包含很多值，第一个传入的列表中可能会包含很多函数，第二个传入的列表也会包含很多值，所以就需要先从第一个列表中取出一个函数然后依次应用在第二个列表的每个值中，再取出第一个列表中的第二个函数应用在第二个列表的每个值中……最终返回得到的所有结果的列表</li>
+</ul>
+<p>使用例子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; [(+<span class="number">3</span>), (*<span class="number">2</span>)] &lt;*&gt; [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">[<span class="number">4</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [(+), (*)]  &lt;*&gt;  [<span class="number">1</span>, <span class="number">2</span>]  &lt;*&gt;  [<span class="number">3</span>, <span class="number">4</span>]  </span><br><span class="line">[<span class="number">4</span>, <span class="number">5</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="IO-1"><a href="#IO-1" class="headerlink" title="IO"></a>IO</h4><figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> <span class="type">IO</span> <span class="keyword">where</span></span></span><br><span class="line">    pure = return</span><br><span class="line">    a &lt;*&gt; b = <span class="keyword">do</span></span><br><span class="line">        f &lt;- a</span><br><span class="line">        x &lt;- b</span><br><span class="line">        return (f x)</span><br></pre></td></tr></table></figure>
+<p>也不难理解，pure函数直接将传入的值return，相当于放在了IO的上下文中。而&lt;*&gt;函数先将两个IO中内容提取出来，然后应用函数后return，形成新的IO函子</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; (++) &lt;$&gt; getLine &lt;*&gt; getLine</span><br><span class="line"><span class="type">Line1</span></span><br><span class="line"><span class="type">Line2</span></span><br><span class="line"><span class="string">&quot;Line1Line2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="gt-r-1"><a href="#gt-r-1" class="headerlink" title="(-&gt;) r"></a>(-&gt;) r</h4><p>(-&gt;) r同样也是一个应用函子，和函子的分析一样，先来分析它的&lt;*&gt;函数的类型签名：</p>
+<p style="text-align: center;"><*> :: f (a -> b) -> f a -> f b</*></p>
+
+<p>其中f为(-&gt;) r，将其代入并替换为中缀：</p>
+<p style="text-align: center;"><*> :: (r -> a -> b) -> (r -> a) -> (r -> b)</*></p>
+
+<p>可以看出它接收两个函数f :: r -&gt; a -&gt; b、g :: r -&gt; a，返回另一个函数h :: (r -&gt; b)</p>
+<p>那么返回的函数的输入为r，输出为b，所以先对输入应用函数g得到a，然后在对r和a应用f得到b，所以推测&lt;*&gt;函数的操作就是：</p>
+<p style="text-align: center;">\x -> f x (g x)</p>
+
+<p>于是：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> ((-&gt;) r) <span class="keyword">where</span></span></span><br><span class="line">    pure x = (\_ -&gt; x)</span><br><span class="line">    f &lt;*&gt; g = \x -&gt; f x (g x)</span><br></pre></td></tr></table></figure>
+<p>将一个值放在函数的上下文中，最小上下文就应该返回这个值本身，所以pure函数定义为(_ -&gt; x)，即无论输入什么，都返回x</p>
+<p>应用函子的&lt;*&gt;函数接收两个函子，返回一个新的函子。对于(-&gt;) r，它接收两个函数，返回一个新的函数。具体例子：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; (+) &lt;$&gt; (+<span class="number">3</span>) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line"><span class="number">508</span></span><br></pre></td></tr></table></figure>
+<p>执行这句时发生了什么？：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">  (+) &lt;$&gt; (+<span class="number">3</span>) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= ((+) &lt;$&gt; (+<span class="number">3</span>)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= ((+) . (+<span class="number">3</span>)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span> = (\a -&gt; (+) ((+<span class="number">3</span>) a)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= (\a b -&gt; (a + <span class="number">3</span> + b)) &lt;*&gt; (*<span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= (\x -&gt; x + <span class="number">3</span> + ((*<span class="number">100</span>) x)) $ <span class="number">5</span></span><br><span class="line">= (\x -&gt; x + <span class="number">3</span> + x * <span class="number">100</span>) $ <span class="number">5</span></span><br><span class="line">= <span class="number">5</span> + <span class="number">3</span> + <span class="number">5</span> * <span class="number">100</span> = <span class="number">508</span></span><br><span class="line">= (<span class="number">5</span> + <span class="number">3</span>) + (<span class="number">5</span> * <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<p>所以就相当于先对输入分别执行(+3)和(*100)，然后将两个结果执行了(+)</p>
+<p>同样：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; (\x y z -&gt; [x,y,z]) &lt;$&gt; (+<span class="number">3</span>) &lt;*&gt; (*<span class="number">2</span>) &lt;*&gt; (/<span class="number">2</span>) $ <span class="number">5</span>  </span><br><span class="line">[<span class="number">8.0</span>,<span class="number">10.0</span>,<span class="number">2.5</span>]  </span><br></pre></td></tr></table></figure>
+<p>先对5分别执行(+3)、(*2)、(/2)，然后将得到的三个结果传入(\x y z -&gt; [x,y,z])得到了最终的结果</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line">  f &lt;$&gt; g &lt;*&gt; h &lt;*&gt; i</span><br><span class="line">= (\x -&gt; f (g x) (h x) (i x))</span><br></pre></td></tr></table></figure>
+
+<h4 id="ZipList"><a href="#ZipList" class="headerlink" title="ZipList"></a>ZipList</h4><p>普通列表实现的&lt;*&gt;函数是将每个函数应用在所有值上，但还有一种实现方法是将每个函数应用在对应值上，因为同一个类型不能存在同一函数的两种实现形式，所以引入了一个新的列表ZipList，包含在<code>Control.Applicative</code>模块中</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">instance</span> <span class="type">Applicative</span> <span class="type">ZipList</span> <span class="keyword">where</span></span></span><br><span class="line">    pure x = <span class="type">ZipList</span> (repeat x)</span><br><span class="line">    <span class="type">ZipList</span> fs &lt;*&gt; <span class="type">ZipList</span> xs = <span class="type">ZipList</span> (zipWith ($) fs xs)</span><br></pre></td></tr></table></figure>
+<p>但是ZipList并不是Show的实例，所以不能直接显示出来，要使用<code>getZipList</code>来获取它内部的列表：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; getZipList $ (+) &lt;$&gt; <span class="type">ZipList</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] &lt;*&gt; <span class="type">ZipList</span> [<span class="number">100</span>,<span class="number">100.</span>.]  </span><br><span class="line">[<span class="number">101</span>,<span class="number">102</span>,<span class="number">103</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; getZipList $ (,,) &lt;$&gt; <span class="type">ZipList</span> <span class="string">&quot;dog&quot;</span> &lt;*&gt; <span class="type">ZipList</span> <span class="string">&quot;cat&quot;</span> &lt;*&gt; <span class="type">ZipList</span> <span class="string">&quot;rat&quot;</span>  </span><br><span class="line">[(&#x27;d&#x27;,&#x27;c&#x27;,&#x27;r&#x27;),(&#x27;o&#x27;,&#x27;a&#x27;,&#x27;a&#x27;),(&#x27;g&#x27;,&#x27;t&#x27;,&#x27;t&#x27;)]  </span><br></pre></td></tr></table></figure>
+
+<h3 id="Applicative-Functor-Laws"><a href="#Applicative-Functor-Laws" class="headerlink" title="Applicative Functor Laws"></a>Applicative Functor Laws</h3><p>应用函子一般有四个定律，都是保证pure的正确性的：</p>
+<ol>
+<li><code>Identity law</code>：pure id &lt;*&gt; v = v</li>
+<li><code>Homomorphism</code>：pure f &lt;*&gt; pure x = pure (f x)</li>
+<li><code>Interchange</code>：u &lt;*&gt; pure v = pure ($ v) &lt;*&gt; u</li>
+<li><code>Composition</code>：u &lt;*&gt; (v &lt;*&gt; w) = pure (.) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w</li>
+</ol>
+<h3 id="Intuition-1"><a href="#Intuition-1" class="headerlink" title="Intuition"></a>Intuition</h3><p>理解应用函子的方式也是将其看作是计算上下文（context），比如要计算：<br>$$<br>[[\ \ g\ x_1\ x_2\ \cdots\ x_n\ \ ]]<br>$$</p>
+<p>其中$x_i$的类型是$f\ t_i$，$f$是应用函子（看作上下文）。而函数$g$的类型是：</p>
+<p>$$<br>t_1\to t_2\to\cdots\to t_n\to t<br>$$</p>
+<p>所以双括号（idiom brackets）的作用是将一个普通函数应用在包含在上下文中的参数上。$g\ x_1$可以通过fmap来执行，将$g$提升（lift）到$x_1$的上下文中，然后应用在$x_1$上。但是fmap返回的结果是一个函子，换句话说，$g\ x_1$结果的类型是：</p>
+<p>$$<br>f\ \ (t_2\to t_3\to\cdots\to t_n\to t)<br>$$</p>
+<p>但是fmap并不能将上下文中的函数应用在上下文中的参数上，于是应用函子的&lt;*&gt;函数提供了这个方法，所以计算$[[\ g\ x_1\ x_2\ \cdots\ x_n\ ]]$，只需要：</p>
+<p style="text-align: center;">g <$> x1 <*> x2 <*> ... <*> xn</*></*></*></$></p>
+
+<p>而pure函数的作用就是将一个不在上下文中的值（函数或参数）提升到上下文中，但不进行其他操作。比如参数$x_2$如果不在上下文中，需要用pure提升到上下文中才能按上面计算：</p>
+<p style="text-align: center;">g <$> x1 <*> pure x2 <*> ... <*> xn</*></*></*></$></p>
+
+<h3 id="常用函数-1"><a href="#常用函数-1" class="headerlink" title="常用函数"></a>常用函数</h3><h4 id="liftA-amp-liftA2-amp-liftA3"><a href="#liftA-amp-liftA2-amp-liftA3" class="headerlink" title="liftA &amp; liftA2 &amp; liftA3"></a>liftA &amp; liftA2 &amp; liftA3</h4><p style="text-align: center;">liftA :: Applicative f => (a -> b) -> f a -> f b</p>
+<p style="text-align: center;">liftA2 :: Applicative f => (a -> b -> c) -> f a -> f b -> f c</p>
+<p style="text-align: center;">liftA3 :: Applicative f => (a -> b -> c -> d) -> f a -> f b -> f c -> f d</p>
+
+<p>不难推测liftA就是fmap，<code>liftA2 f x1 x2</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2</code>，<code>liftA3 f x1 x2 x3</code>相当于<code>f &lt;$&gt; x1 &lt;*&gt; x2 &lt;*&gt; x3</code></p>
+<h4 id="lt-amp-gt"><a href="#lt-amp-gt" class="headerlink" title="&lt;* &amp; *&gt;"></a>&lt;* &amp; *&gt;</h4><p>类型类似函子的<code>&lt;$</code>和<code>$&gt;</code>：</p>
+<p style="text-align: center;">(<*) :: applicative f> f a -> f b -> f a</*)></p>
+<p style="text-align: center;">(*>) :: Applicative f => f a -> f b -> f b</p>
+
+<p>&lt;*接收两个函子，如果两个函子中又一个为空，就返回空，否则返回的类型与第一个函子相同。*&gt;反过来</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; <span class="type">Just</span> <span class="number">3</span> &lt;* <span class="type">Just</span> <span class="number">4</span></span><br><span class="line"><span class="type">Just</span> <span class="number">3</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Just</span> <span class="number">3</span> *&gt; <span class="type">Just</span> <span class="number">4</span></span><br><span class="line"><span class="type">Just</span> <span class="number">4</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Nothing</span> &lt;* <span class="type">Just</span> <span class="number">3</span></span><br><span class="line"><span class="type">Nothing</span></span><br><span class="line"><span class="title">ghci</span>&gt; <span class="type">Nothing</span> *&gt; <span class="type">Just</span> <span class="number">3</span></span><br><span class="line"><span class="type">Nothing</span></span><br><span class="line"><span class="title">ghci</span>&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] &lt;* [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>] *&gt; [<span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">[<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [] &lt;* [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[]</span><br><span class="line"><span class="title">ghci</span>&gt; [] *&gt; [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<h4 id="lt-gt-1"><a href="#lt-gt-1" class="headerlink" title="&lt;**&gt;"></a>&lt;**&gt;</h4><p style="text-align: center;">(**) :: Applicative f => f a -> f (a -> b) -> f b</p>
+
+<p>接收的参数是&lt;*&gt;反转过来的，即先接收一个参数函子，然后接收一个函数函子，在将其应用返回。但是和flip(&lt;*&gt;)不同，它先取参数函子的每个参数，然后再取函数函子中的函数逐个应用：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; [(+<span class="number">1</span>), (+<span class="number">2</span>), (+<span class="number">3</span>)] &lt;*&gt; [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; [<span class="number">1</span>, <span class="number">2</span>] &lt;**&gt; [(+<span class="number">1</span>), (+<span class="number">2</span>), (+<span class="number">3</span>)]</span><br><span class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="title">ghci</span>&gt; flip(&lt;*&gt;) [<span class="number">1</span>, <span class="number">2</span>] [(+<span class="number">1</span>), (+<span class="number">2</span>), (+<span class="number">3</span>)]</span><br><span class="line">[<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="when-amp-unless"><a href="#when-amp-unless" class="headerlink" title="when &amp; unless"></a>when &amp; unless</h4><p style="text-align: center;">when :: Applicative f => Bool -> f () -> f ()</p>
+
+<p>传入的第一个是一个结果为Bool类型的测试，如果测试为True，则调用第二个参数，否则返回pure ()。（when函数在上文IO操作中使用过）</p>
+<p>unless则与when相反，测试为True返回pure ()</p>
+<h4 id="sequenceA"><a href="#sequenceA" class="headerlink" title="sequenceA"></a>sequenceA</h4><p style="text-align: center;">sequenceA :: (Traversable t, Applicative f) => t (f a) -> f (t a)</p>
+
+<p>应用在列表上时，它的类型相当于：</p>
+<p style="text-align: center;">[f a] -> f [a]</p>
+
+<p>所以在列表上它的使用方法：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; sequenceA [<span class="type">Just</span> <span class="number">3</span>, <span class="type">Just</span> <span class="number">2</span>, <span class="type">Just</span> <span class="number">1</span>]  </span><br><span class="line"><span class="type">Just</span> [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [<span class="type">Just</span> <span class="number">3</span>, <span class="type">Nothing</span>, <span class="type">Just</span> <span class="number">1</span>]  </span><br><span class="line"><span class="type">Nothing</span>  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [(+<span class="number">3</span>),(+<span class="number">2</span>),(+<span class="number">1</span>)] <span class="number">3</span>  </span><br><span class="line">[<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]]  </span><br><span class="line">[[<span class="number">1</span>,<span class="number">4</span>],[<span class="number">1</span>,<span class="number">5</span>],[<span class="number">1</span>,<span class="number">6</span>],[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">2</span>,<span class="number">5</span>],[<span class="number">2</span>,<span class="number">6</span>],[<span class="number">3</span>,<span class="number">4</span>],[<span class="number">3</span>,<span class="number">5</span>],[<span class="number">3</span>,<span class="number">6</span>]]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>],[<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>],[]]  </span><br><span class="line">[]  </span><br></pre></td></tr></table></figure>
+<p>它在对同一个参数应用不同函数时很有用：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; map (\f -&gt; f <span class="number">7</span>) [(&gt;<span class="number">4</span>), (&lt;<span class="number">10</span>), odd]  </span><br><span class="line">[<span class="type">True</span>,<span class="type">True</span>,<span class="type">True</span>]  </span><br><span class="line"><span class="title">ghci</span>&gt; sequenceA [(&gt;<span class="number">4</span>), (&lt;<span class="number">10</span>), odd] <span class="number">7</span>  </span><br><span class="line">[<span class="type">True</span>,<span class="type">True</span>,<span class="type">True</span>]  </span><br></pre></td></tr></table></figure>
+
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+<li><a href="https://wiki.haskell.org/Typeclassopedia">Haskell wiki - Typeclassopedia</a></li>
+<li><a href="https://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">Functors, Applicatives, And Monads In Pictures</a></li>
+<li><a href="http://02s949.coding-pages.com/2018/08/15/haskellc/">Haskell学习 - functor</a></li>
+</ul>
 <hr>
 <div style="text-align: center;">
 
@@ -905,6 +1161,9 @@
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> System.Environment</span><br><span class="line"><span class="keyword">import</span> System.IO.Error</span><br><span class="line"><span class="keyword">import</span> Control.Exception</span><br><span class="line">  </span><br><span class="line"><span class="title">main</span> = toTry `catch` handler</span><br><span class="line">              </span><br><span class="line"><span class="title">toTry</span> :: <span class="type">IO</span> ()  </span><br><span class="line"><span class="title">toTry</span> = <span class="keyword">do</span> (fileName:_) &lt;- getArgs  </span><br><span class="line">           contents &lt;- readFile fileName  </span><br><span class="line">           putStrLn $ <span class="string">&quot;The file has &quot;</span> ++ show (length (lines contents)) ++ <span class="string">&quot; lines!&quot;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="title">handler</span> :: <span class="type">IOError</span> -&gt; <span class="type">IO</span> ()  </span><br><span class="line"><span class="title">handler</span> e  </span><br><span class="line">    | isDoesNotExistError e = putStrLn <span class="string">&quot;The file doesn&#x27;t exist!&quot;</span>  </span><br><span class="line">    | otherwise = ioError e  </span><br></pre></td></tr></table></figure>
 
 <p>具体相关全部函数见文档：<a href="https://hackage.haskell.org/package/base-4.15.0.0/docs/System-IO-Error.html">System.IO.Error</a>、<a href="https://hackage.haskell.org/package/base-4.15.0.0/docs/Control-Exception-Base.html">Control.Exception</a></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+</ul>
 <hr>
 <div style="text-align: center;">
 
@@ -1019,6 +1278,12 @@
 <p style="text-align: center;">type String = [Char]</p>
 
 <p>在所有需要使用字符串（即[Char]）的地方都可以使用String来代替，它们是完全一致的，只是String更简便易读。<br>同时，类型别名也可以接收类型参数</p>
+<h4 id="newtype-keyword"><a href="#newtype-keyword" class="headerlink" title="newtype keyword"></a>newtype keyword</h4><p>除了<code>data</code>、<code>type</code>关键字之外，还可以用<code>newtype</code>关键字来定义一个新的类型，比如<code>Control.Applicative</code>模块中的ZipList：</p>
+<figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">newtype</span> <span class="type">ZipList</span> a = &#123; <span class="title">getZipList</span> :: [<span class="title">a</span>] &#125;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>不同于type，它不是别名，可以使用record语法来直接定义取出值的函数</li>
+<li>不同于data，它只能有一个值构造器，但是速度要比data快，而且更加懒惰</li>
+</ul>
 <h3 id="Recursive-data-structures"><a href="#Recursive-data-structures" class="headerlink" title="Recursive data structures"></a>Recursive data structures</h3><p>一个类型也可以递归定义，比如一颗二叉树：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">data</span> <span class="type">Tree</span> a = <span class="type">EmptyTree</span> | <span class="type">Node</span> a (<span class="type">Tree</span> <span class="title">a</span>) (<span class="type">Tree</span> <span class="title">a</span>) <span class="keyword">deriving</span> (<span class="type">Show</span>, <span class="type">Read</span>, <span class="type">Eq</span>)  </span></span><br></pre></td></tr></table></figure>
 
@@ -1041,6 +1306,9 @@
 <h2 id="Kinds"><a href="#Kinds" class="headerlink" title="Kinds"></a>Kinds</h2><p>一个值的类型叫做类型（Type），而一个类型的类型叫做Kind。可以通过GHCi中<code>:k</code>来查看Kind：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Int</span></span><br><span class="line"><span class="type">Int</span> :: *</span><br><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Maybe</span></span><br><span class="line"><span class="type">Maybe</span> :: * -&gt; *</span><br><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Maybe</span> <span class="type">Int</span></span><br><span class="line"><span class="type">Maybe</span> <span class="type">Int</span> :: *</span><br><span class="line"><span class="title">ghci</span>&gt; :k <span class="type">Either</span></span><br><span class="line"><span class="type">Either</span> :: * -&gt; * -&gt; *</span><br></pre></td></tr></table></figure>
 <p>其中的星号<code>*</code>代表了一个具体类型（concrete type）。Int本身就是一个具体类型，所以Int的Kind是*。而Maybe是一个类型构造器，它接收一个具体类型返回一个新的具体类型，所以Maybe的Kind是* -&gt; *。如果给Maybe传入了一个Int，那么得到的Maybe Int就是一个具体的类型，它的Kind就是*。Either也是一个类型构造器，但它接收两个类型才产生一个新的类型，所以Either的Kind是* -&gt; * -&gt; *。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+</ul>
 <hr>
 <div style="text-align: center;">
 
@@ -1155,6 +1423,11 @@
 <h3 id="编写Modules"><a href="#编写Modules" class="headerlink" title="编写Modules"></a>编写Modules</h3><p>模块中要包含将要使用的一些函数，像正常的hs文件一样写即可，但头部需要有导出语句（export）。比如一个模块文件名叫<code>ModuleA.hs</code>，那它的头部需要写：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> ModuleA</span><br><span class="line">( <span class="title">functionA</span></span><br><span class="line">, <span class="title">functionB</span></span><br><span class="line">, <span class="title">functionC</span></span><br><span class="line">) <span class="keyword">where</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>而且文件中的所有函数只导出需要使用的即可。比如该文件中还含有functionD供前三个函数内部使用，那么在import ModuleA之后也无法调用functionD。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+<li><a href="https://stackoverflow.com/questions/6172004/writing-foldl-using-foldr">Writing foldl using foldr - StackOverflow</a></li>
+<li><a href="https://blog.csdn.net/WinterShiver/article/details/103308165">Haskell：用foldr定义foldl</a></li>
+</ul>
 <hr>
 <div style="text-align: center;">
 
@@ -1249,6 +1522,9 @@
 <h3 id="if-statement"><a href="#if-statement" class="headerlink" title="if statement"></a>if statement</h3><p>Haskell中的if语句为：</p>
 <figure class="highlight haskell"><table><tr><td class="code"><pre><span class="line"><span class="title">if</span> ... <span class="keyword">then</span> ...</span><br><span class="line"><span class="title">else</span> ...</span><br><span class="line"><span class="comment">-- or if ... then ... else ...</span></span><br><span class="line"><span class="comment">-- or</span></span><br><span class="line"><span class="title">if</span> ... <span class="keyword">then</span> ...</span><br><span class="line"><span class="title">else</span> <span class="keyword">if</span> ... <span class="keyword">then</span> ...</span><br><span class="line"><span class="title">else</span> ...</span><br></pre></td></tr></table></figure>
 <p>其中最后一个else无论如何也不可以省去</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+</ul>
 <hr>
 <div style="text-align: center;">
 
