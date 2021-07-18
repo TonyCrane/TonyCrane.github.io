@@ -10281,6 +10281,9 @@ body > .section {
     background: rgba(0,0,0,0.24);
   }
 }
+.mjx-math {
+  font-size: large;
+}
 .ml-0,
 .mx-0 {
   margin-left: 0 !important;
