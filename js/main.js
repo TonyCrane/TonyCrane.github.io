@@ -135,3 +135,12 @@
         $('.navbar-main .catalogue').on('click', toggleToc);
     }
 }(jQuery, window.moment, window.ClipboardJS, window.IcarusThemeSettings));
+
+$(function () {
+    Array.from($("img")).forEach(img => {
+        let ori = img.src;
+        if (ori.match(/https:\/\/tonycrane\.github\.io\/.*?\.(jpg|png)/)) {
+            img.src = "https://cdn.jsdelivr.net/gh/tonycrane/" + ori.substr(8);
+        }
+    });
+});
