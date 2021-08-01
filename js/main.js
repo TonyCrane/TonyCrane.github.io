@@ -139,7 +139,7 @@
 $(function () {
     Array.from($("img")).forEach(img => {
         let ori = img.src;
-        if (ori.match(/https:\/\/tonycrane\.github\.io\/.*?\.(jpg|png)/)) {
+        if (ori.match(/https:\/\/blog\.tonycrane\.cc\/.*?\.(jpg|png)/)) {
             img.src = "https://cdn.jsdelivr.net/gh/tonycrane/" + ori.substr(8);
         }
     });
