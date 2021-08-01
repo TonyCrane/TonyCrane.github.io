@@ -139,8 +139,8 @@
 $(function () {
     Array.from($("img")).forEach(img => {
         let ori = img.src;
-        if (ori.match(/https:\/\/blog\.tonycrane\.cc\/.*?\.(jpg|png)/)) {
-            img.src = "https://cdn.jsdelivr.net/gh/tonycrane/" + ori.substr(8);
+        if (ori.match(/https:\/\/blog\.tonycrane\.cc\/.*?\.(jpg|png|gif)/)) {
+            img.src = "https://cdn.jsdelivr.net/gh/tonycrane/tonycrane.github.io/" + ori.substr(26);
         }
     });
 });

@@ -3,11 +3,11 @@
   <title>TonyCrane&#39;s Blog</title>
   
   <subtitle>鹤翔万里的博客</subtitle>
-  <link href="https://tonycrane.github.io/atom.xml" rel="self"/>
+  <link href="https://blog.tonycrane.cc/atom.xml" rel="self"/>
   
-  <link href="https://tonycrane.github.io/"/>
+  <link href="https://blog.tonycrane.cc/"/>
   <updated>2021-07-25T04:54:13.884Z</updated>
-  <id>https://tonycrane.github.io/</id>
+  <id>https://blog.tonycrane.cc/</id>
   
   <author>
     <name>Tony Wang</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>「Learn Haskell」#7 一些其它类型类</title>
-    <link href="https://tonycrane.github.io/p/68ef8146.html"/>
-    <id>https://tonycrane.github.io/p/68ef8146.html</id>
+    <link href="https://blog.tonycrane.cc/p/68ef8146.html"/>
+    <id>https://blog.tonycrane.cc/p/68ef8146.html</id>
     <published>2021-07-25T04:46:38.000Z</published>
     <updated>2021-07-25T04:54:13.884Z</updated>
     
@@ -37,16 +37,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#A Haskell与范畴论</title>
-    <link href="https://tonycrane.github.io/p/96c32eae.html"/>
-    <id>https://tonycrane.github.io/p/96c32eae.html</id>
+    <link href="https://blog.tonycrane.cc/p/96c32eae.html"/>
+    <id>https://blog.tonycrane.cc/p/96c32eae.html</id>
     <published>2021-07-19T06:01:00.000Z</published>
     <updated>2021-07-25T04:51:23.712Z</updated>
     
@@ -63,18 +63,18 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="范畴论" scheme="https://tonycrane.github.io/tags/%E8%8C%83%E7%95%B4%E8%AE%BA/"/>
+    <category term="范畴论" scheme="https://blog.tonycrane.cc/tags/%E8%8C%83%E7%95%B4%E8%AE%BA/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#6 半群与幺半群</title>
-    <link href="https://tonycrane.github.io/p/d4bb2633.html"/>
-    <id>https://tonycrane.github.io/p/d4bb2633.html</id>
+    <link href="https://blog.tonycrane.cc/p/d4bb2633.html"/>
+    <id>https://blog.tonycrane.cc/p/d4bb2633.html</id>
     <published>2021-07-17T03:15:47.000Z</published>
     <updated>2021-07-25T04:54:13.884Z</updated>
     
@@ -97,16 +97,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#5 函子、应用函子与单子</title>
-    <link href="https://tonycrane.github.io/p/290ecb74.html"/>
-    <id>https://tonycrane.github.io/p/290ecb74.html</id>
+    <link href="https://blog.tonycrane.cc/p/290ecb74.html"/>
+    <id>https://blog.tonycrane.cc/p/290ecb74.html</id>
     <published>2021-07-09T07:12:39.000Z</published>
     <updated>2021-07-25T04:54:13.884Z</updated>
     
@@ -124,16 +124,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#4 输入输出与文件</title>
-    <link href="https://tonycrane.github.io/p/a5bbe48a.html"/>
-    <id>https://tonycrane.github.io/p/a5bbe48a.html</id>
+    <link href="https://blog.tonycrane.cc/p/a5bbe48a.html"/>
+    <id>https://blog.tonycrane.cc/p/a5bbe48a.html</id>
     <published>2021-07-07T08:10:07.000Z</published>
     <updated>2021-07-25T04:51:38.659Z</updated>
     
@@ -151,16 +151,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#3 类型与类型类</title>
-    <link href="https://tonycrane.github.io/p/369b7e08.html"/>
-    <id>https://tonycrane.github.io/p/369b7e08.html</id>
+    <link href="https://blog.tonycrane.cc/p/369b7e08.html"/>
+    <id>https://blog.tonycrane.cc/p/369b7e08.html</id>
     <published>2021-07-07T08:09:41.000Z</published>
     <updated>2021-07-25T04:51:42.570Z</updated>
     
@@ -180,16 +180,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#2 高阶函数与模块</title>
-    <link href="https://tonycrane.github.io/p/53e482b7.html"/>
-    <id>https://tonycrane.github.io/p/53e482b7.html</id>
+    <link href="https://blog.tonycrane.cc/p/53e482b7.html"/>
+    <id>https://blog.tonycrane.cc/p/53e482b7.html</id>
     <published>2021-07-07T08:09:03.000Z</published>
     <updated>2021-07-25T04:51:46.184Z</updated>
     
@@ -207,16 +207,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#1 基础语法与函数</title>
-    <link href="https://tonycrane.github.io/p/d63b5b5f.html"/>
-    <id>https://tonycrane.github.io/p/d63b5b5f.html</id>
+    <link href="https://blog.tonycrane.cc/p/d63b5b5f.html"/>
+    <id>https://blog.tonycrane.cc/p/d63b5b5f.html</id>
     <published>2021-07-07T08:06:40.000Z</published>
     <updated>2021-07-25T04:51:49.962Z</updated>
     
@@ -238,16 +238,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>「Learn Haskell」#0 总章</title>
-    <link href="https://tonycrane.github.io/p/b3ca5c18.html"/>
-    <id>https://tonycrane.github.io/p/b3ca5c18.html</id>
+    <link href="https://blog.tonycrane.cc/p/b3ca5c18.html"/>
+    <id>https://blog.tonycrane.cc/p/b3ca5c18.html</id>
     <published>2021-06-21T10:07:58.000Z</published>
     <updated>2021-07-25T05:09:10.893Z</updated>
     
@@ -261,16 +261,16 @@
     
     
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="Haskell" scheme="https://blog.tonycrane.cc/tags/Haskell/"/>
     
-    <category term="Haskell" scheme="https://tonycrane.github.io/tags/Haskell/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
   </entry>
   
   <entry>
     <title>修复manim中Text类的bug</title>
-    <link href="https://tonycrane.github.io/p/b6815e8.html"/>
-    <id>https://tonycrane.github.io/p/b6815e8.html</id>
+    <link href="https://blog.tonycrane.cc/p/b6815e8.html"/>
+    <id>https://blog.tonycrane.cc/p/b6815e8.html</id>
     <published>2020-05-05T23:59:39.000Z</published>
     <updated>2021-06-21T14:47:07.558Z</updated>
     
@@ -288,27 +288,27 @@
     
     
     
-    <category term="manim" scheme="https://tonycrane.github.io/categories/manim/"/>
+    <category term="manim" scheme="https://blog.tonycrane.cc/categories/manim/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/categories/manim/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/categories/manim/%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="manim" scheme="https://tonycrane.github.io/tags/manim/"/>
+    <category term="github" scheme="https://blog.tonycrane.cc/tags/github/"/>
     
-    <category term="python" scheme="https://tonycrane.github.io/tags/python/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="manim" scheme="https://blog.tonycrane.cc/tags/manim/"/>
     
-    <category term="github" scheme="https://tonycrane.github.io/tags/github/"/>
+    <category term="python" scheme="https://blog.tonycrane.cc/tags/python/"/>
     
-    <category term="bug" scheme="https://tonycrane.github.io/tags/bug/"/>
+    <category term="bug" scheme="https://blog.tonycrane.cc/tags/bug/"/>
     
   </entry>
   
   <entry>
     <title>树上莫队-笔记  /「SPOJ 10707」COT2-题解</title>
-    <link href="https://tonycrane.github.io/p/24f5ddbc.html"/>
-    <id>https://tonycrane.github.io/p/24f5ddbc.html</id>
+    <link href="https://blog.tonycrane.cc/p/24f5ddbc.html"/>
+    <id>https://blog.tonycrane.cc/p/24f5ddbc.html</id>
     <published>2020-04-30T06:35:44.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -320,31 +320,31 @@
     
     
     
-    <category term="C++算法" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/"/>
+    <category term="C++算法" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="算法" scheme="https://tonycrane.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.tonycrane.cc/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="莫队" scheme="https://tonycrane.github.io/tags/%E8%8E%AB%E9%98%9F/"/>
+    <category term="莫队" scheme="https://blog.tonycrane.cc/tags/%E8%8E%AB%E9%98%9F/"/>
     
-    <category term="SPOJ" scheme="https://tonycrane.github.io/tags/SPOJ/"/>
+    <category term="SPOJ" scheme="https://blog.tonycrane.cc/tags/SPOJ/"/>
     
   </entry>
   
   <entry>
     <title>回滚莫队-笔记  /「AtCoder 1219」歴史の研究-题解</title>
-    <link href="https://tonycrane.github.io/p/7d7b5548.html"/>
-    <id>https://tonycrane.github.io/p/7d7b5548.html</id>
+    <link href="https://blog.tonycrane.cc/p/7d7b5548.html"/>
+    <id>https://blog.tonycrane.cc/p/7d7b5548.html</id>
     <published>2020-04-30T02:58:35.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -356,31 +356,31 @@
     
     
     
-    <category term="C++算法" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/"/>
+    <category term="C++算法" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="算法" scheme="https://tonycrane.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.tonycrane.cc/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="莫队" scheme="https://tonycrane.github.io/tags/%E8%8E%AB%E9%98%9F/"/>
+    <category term="莫队" scheme="https://blog.tonycrane.cc/tags/%E8%8E%AB%E9%98%9F/"/>
     
-    <category term="AtCoder" scheme="https://tonycrane.github.io/tags/AtCoder/"/>
+    <category term="AtCoder" scheme="https://blog.tonycrane.cc/tags/AtCoder/"/>
     
   </entry>
   
   <entry>
     <title>带修莫队-笔记  /「Luogu P1903」数颜色-题解</title>
-    <link href="https://tonycrane.github.io/p/838c5e29.html"/>
-    <id>https://tonycrane.github.io/p/838c5e29.html</id>
+    <link href="https://blog.tonycrane.cc/p/838c5e29.html"/>
+    <id>https://blog.tonycrane.cc/p/838c5e29.html</id>
     <published>2020-04-29T01:00:14.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -397,31 +397,31 @@
     
     
     
-    <category term="C++算法" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/"/>
+    <category term="C++算法" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="算法" scheme="https://tonycrane.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.tonycrane.cc/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="莫队" scheme="https://tonycrane.github.io/tags/%E8%8E%AB%E9%98%9F/"/>
+    <category term="莫队" scheme="https://blog.tonycrane.cc/tags/%E8%8E%AB%E9%98%9F/"/>
     
-    <category term="Luogu" scheme="https://tonycrane.github.io/tags/Luogu/"/>
+    <category term="Luogu" scheme="https://blog.tonycrane.cc/tags/Luogu/"/>
     
   </entry>
   
   <entry>
     <title>浅析莫队算法的时间复杂度</title>
-    <link href="https://tonycrane.github.io/p/681257d9.html"/>
-    <id>https://tonycrane.github.io/p/681257d9.html</id>
+    <link href="https://blog.tonycrane.cc/p/681257d9.html"/>
+    <id>https://blog.tonycrane.cc/p/681257d9.html</id>
     <published>2020-04-28T23:29:52.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -437,25 +437,25 @@
     
     
     
-    <category term="C++算法" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/"/>
+    <category term="C++算法" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/categories/C-%E7%AE%97%E6%B3%95/%E7%AC%94%E8%AE%B0/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="算法" scheme="https://tonycrane.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    <category term="算法" scheme="https://blog.tonycrane.cc/tags/%E7%AE%97%E6%B3%95/"/>
     
-    <category term="笔记" scheme="https://tonycrane.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    <category term="笔记" scheme="https://blog.tonycrane.cc/tags/%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="莫队" scheme="https://tonycrane.github.io/tags/%E8%8E%AB%E9%98%9F/"/>
+    <category term="莫队" scheme="https://blog.tonycrane.cc/tags/%E8%8E%AB%E9%98%9F/"/>
     
   </entry>
   
   <entry>
     <title>「网络流24题」总结及图示</title>
-    <link href="https://tonycrane.github.io/p/dccbc6bb.html"/>
-    <id>https://tonycrane.github.io/p/dccbc6bb.html</id>
+    <link href="https://blog.tonycrane.cc/p/dccbc6bb.html"/>
+    <id>https://blog.tonycrane.cc/p/dccbc6bb.html</id>
     <published>2020-04-28T03:13:02.000Z</published>
     <updated>2021-06-12T05:21:00.265Z</updated>
     
@@ -619,27 +619,27 @@
     
     
     
-    <category term="题解" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流24题" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
+    <category term="网络流24题" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流" scheme="https://tonycrane.github.io/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
+    <category term="网络流" scheme="https://blog.tonycrane.cc/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
     
-    <category term="费用流" scheme="https://tonycrane.github.io/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
+    <category term="费用流" scheme="https://blog.tonycrane.cc/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
     
   </entry>
   
   <entry>
     <title>「Luogu P1494」小Z的袜子-题解</title>
-    <link href="https://tonycrane.github.io/p/49548215.html"/>
-    <id>https://tonycrane.github.io/p/49548215.html</id>
+    <link href="https://blog.tonycrane.cc/p/49548215.html"/>
+    <id>https://blog.tonycrane.cc/p/49548215.html</id>
     <published>2020-04-27T06:53:47.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -650,25 +650,25 @@
     
     
     
-    <category term="题解" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="莫队" scheme="https://tonycrane.github.io/tags/%E8%8E%AB%E9%98%9F/"/>
+    <category term="莫队" scheme="https://blog.tonycrane.cc/tags/%E8%8E%AB%E9%98%9F/"/>
     
-    <category term="数论" scheme="https://tonycrane.github.io/tags/%E6%95%B0%E8%AE%BA/"/>
+    <category term="数论" scheme="https://blog.tonycrane.cc/tags/%E6%95%B0%E8%AE%BA/"/>
     
   </entry>
   
   <entry>
     <title>「网络流24题」负载平衡问题-题解</title>
-    <link href="https://tonycrane.github.io/p/b8624866.html"/>
-    <id>https://tonycrane.github.io/p/b8624866.html</id>
+    <link href="https://blog.tonycrane.cc/p/b8624866.html"/>
+    <id>https://blog.tonycrane.cc/p/b8624866.html</id>
     <published>2020-04-23T02:44:02.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -679,27 +679,27 @@
     
     
     
-    <category term="题解" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流24题" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
+    <category term="网络流24题" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流" scheme="https://tonycrane.github.io/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
+    <category term="网络流" scheme="https://blog.tonycrane.cc/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
     
-    <category term="费用流" scheme="https://tonycrane.github.io/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
+    <category term="费用流" scheme="https://blog.tonycrane.cc/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
     
   </entry>
   
   <entry>
     <title>「网络流24题」运输问题-题解</title>
-    <link href="https://tonycrane.github.io/p/152673e9.html"/>
-    <id>https://tonycrane.github.io/p/152673e9.html</id>
+    <link href="https://blog.tonycrane.cc/p/152673e9.html"/>
+    <id>https://blog.tonycrane.cc/p/152673e9.html</id>
     <published>2020-04-23T02:17:43.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -710,27 +710,27 @@
     
     
     
-    <category term="题解" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流24题" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
+    <category term="网络流24题" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流" scheme="https://tonycrane.github.io/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
+    <category term="网络流" scheme="https://blog.tonycrane.cc/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
     
-    <category term="费用流" scheme="https://tonycrane.github.io/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
+    <category term="费用流" scheme="https://blog.tonycrane.cc/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
     
   </entry>
   
   <entry>
     <title>「网络流24题」分配问题-题解</title>
-    <link href="https://tonycrane.github.io/p/11b1dcbd.html"/>
-    <id>https://tonycrane.github.io/p/11b1dcbd.html</id>
+    <link href="https://blog.tonycrane.cc/p/11b1dcbd.html"/>
+    <id>https://blog.tonycrane.cc/p/11b1dcbd.html</id>
     <published>2020-04-23T01:50:17.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -741,27 +741,27 @@
     
     
     
-    <category term="题解" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流24题" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
+    <category term="网络流24题" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流" scheme="https://tonycrane.github.io/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
+    <category term="网络流" scheme="https://blog.tonycrane.cc/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
     
-    <category term="费用流" scheme="https://tonycrane.github.io/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
+    <category term="费用流" scheme="https://blog.tonycrane.cc/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
     
   </entry>
   
   <entry>
     <title>「网络流24题」数字梯形问题-题解</title>
-    <link href="https://tonycrane.github.io/p/86b4c1f9.html"/>
-    <id>https://tonycrane.github.io/p/86b4c1f9.html</id>
+    <link href="https://blog.tonycrane.cc/p/86b4c1f9.html"/>
+    <id>https://blog.tonycrane.cc/p/86b4c1f9.html</id>
     <published>2020-04-23T01:09:18.000Z</published>
     <updated>2020-05-05T02:33:00.000Z</updated>
     
@@ -772,20 +772,20 @@
     
     
     
-    <category term="题解" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流24题" scheme="https://tonycrane.github.io/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
+    <category term="网络流24题" scheme="https://blog.tonycrane.cc/categories/%E9%A2%98%E8%A7%A3/%E7%BD%91%E7%BB%9C%E6%B5%8124%E9%A2%98/"/>
     
     
-    <category term="Cpp" scheme="https://tonycrane.github.io/tags/Cpp/"/>
+    <category term="Cpp" scheme="https://blog.tonycrane.cc/tags/Cpp/"/>
     
-    <category term="NOIp" scheme="https://tonycrane.github.io/tags/NOIp/"/>
+    <category term="NOIp" scheme="https://blog.tonycrane.cc/tags/NOIp/"/>
     
-    <category term="题解" scheme="https://tonycrane.github.io/tags/%E9%A2%98%E8%A7%A3/"/>
+    <category term="题解" scheme="https://blog.tonycrane.cc/tags/%E9%A2%98%E8%A7%A3/"/>
     
-    <category term="网络流" scheme="https://tonycrane.github.io/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
+    <category term="网络流" scheme="https://blog.tonycrane.cc/tags/%E7%BD%91%E7%BB%9C%E6%B5%81/"/>
     
-    <category term="费用流" scheme="https://tonycrane.github.io/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
+    <category term="费用流" scheme="https://blog.tonycrane.cc/tags/%E8%B4%B9%E7%94%A8%E6%B5%81/"/>
     
   </entry>
   
