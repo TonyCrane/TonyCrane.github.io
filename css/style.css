@@ -11800,6 +11800,11 @@ html[data-theme='dark'] {
 [data-theme='dark'] .searchbox .searchbox-result-icon {
   color: rgba(255,255,255,0.7);
 }
+@media screen and (max-width: 1087px) {
+  [data-theme='dark'] .navbar-menu {
+    background-color: #161616;
+  }
+}
 [data-theme='dark'] .hljs {
   background: #272822;
   color: #ddd;
