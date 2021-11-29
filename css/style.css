@@ -11800,6 +11800,10 @@ html[data-theme='dark'] {
 [data-theme='dark'] .searchbox .searchbox-result-icon {
   color: rgba(255,255,255,0.7);
 }
+[data-theme='dark'] .content table thead td,
+[data-theme='dark'] .content table thead th {
+  color: rgba(255,255,255,0.9);
+}
 @media screen and (max-width: 1087px) {
   [data-theme='dark'] .navbar-menu {
     background-color: #161616;
