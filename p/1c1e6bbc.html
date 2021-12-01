@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>「QRCode 标准阅读」#1 构成及数据编码 - TonyCrane&#039;s Blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="TonyCrane&#039;s Blog"><meta name="msapplication-TileImage" content="/Tony.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="TonyCrane&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="&amp;lt; #0 #2 &amp;gt;   基础描述及结构（6.1、6.3）基础描述（5.3、6.1） 块位置：左上角为原点 (0, 0) 向下x+，向右y+ 版本表示：Version V-E（其中V是版本号，E是纠错等级） 数据表示：黑块-1 白块-0（可以带背景全部反色） 大小：从版本1到版本40依次是 21x21 ～ 177x177（每增加一个版本，边长增加4）"><meta property="og:type" content="blog"><meta property="og:title" content="「QRCode 标准阅读」#1 构成及数据编码"><meta property="og:url" content="https://blog.tonycrane.cc/p/1c1e6bbc.html"><meta property="og:site_name" content="TonyCrane&#039;s Blog"><meta property="og:description" content="&amp;lt; #0 #2 &amp;gt;   基础描述及结构（6.1、6.3）基础描述（5.3、6.1） 块位置：左上角为原点 (0, 0) 向下x+，向右y+ 版本表示：Version V-E（其中V是版本号，E是纠错等级） 数据表示：黑块-1 白块-0（可以带背景全部反色） 大小：从版本1到版本40依次是 21x21 ～ 177x177（每增加一个版本，边长增加4）"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/structure.png"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/alnum.png"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/Latin-1.png"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/multi.png"><meta property="article:published_time" content="2021-11-29T16:20:06.000Z"><meta property="article:modified_time" content="2021-12-01T14:34:55.427Z"><meta property="article:author" content="TonyCrane"><meta property="article:tag" content="CTF"><meta property="article:tag" content="笔记"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/p/1c1e6bbc/structure.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.tonycrane.cc/p/1c1e6bbc.html"},"headline":"「QRCode 标准阅读」#1 构成及数据编码","image":["https://blog.tonycrane.cc/p/1c1e6bbc/structure.png","https://blog.tonycrane.cc/p/1c1e6bbc/alnum.png","https://blog.tonycrane.cc/p/1c1e6bbc/Latin-1.png","https://blog.tonycrane.cc/p/1c1e6bbc/multi.png"],"datePublished":"2021-11-29T16:20:06.000Z","dateModified":"2021-12-01T14:34:55.427Z","author":{"@type":"Person","name":"TonyCrane"},"publisher":{"@type":"Organization","name":"TonyCrane's Blog","logo":{"@type":"ImageObject","url":"https://blog.tonycrane.cc/BlogLogo.png"}},"description":"&lt; #0 #2 &gt;   基础描述及结构（6.1、6.3）基础描述（5.3、6.1） 块位置：左上角为原点 (0, 0) 向下x+，向右y+ 版本表示：Version V-E（其中V是版本号，E是纠错等级） 数据表示：黑块-1 白块-0（可以带背景全部反色） 大小：从版本1到版本40依次是 21x21 ～ 177x177（每增加一个版本，边长增加4）"}</script><link rel="canonical" href="https://blog.tonycrane.cc/p/1c1e6bbc.html"><link rel="icon" href="/Tony.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro&amp;family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400;1,700"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><script>var _hmt = _hmt || [];
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>「QRCode 标准阅读」#1 构成及数据编码 - TonyCrane&#039;s Blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="TonyCrane&#039;s Blog"><meta name="msapplication-TileImage" content="/Tony.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="TonyCrane&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="&amp;lt; #0 #2 &amp;gt;   基础描述及结构（6.1、6.3）基础描述（5.3、6.1） 块位置：左上角为原点 (0, 0) 向下x+，向右y+ 版本表示：Version V-E（其中V是版本号，E是纠错等级） 数据表示：黑块-1 白块-0（可以带背景全部反色） 大小：从版本1到版本40依次是 21x21 ～ 177x177（每增加一个版本，边长增加4）"><meta property="og:type" content="blog"><meta property="og:title" content="「QRCode 标准阅读」#1 构成及数据编码"><meta property="og:url" content="https://blog.tonycrane.cc/p/1c1e6bbc.html"><meta property="og:site_name" content="TonyCrane&#039;s Blog"><meta property="og:description" content="&amp;lt; #0 #2 &amp;gt;   基础描述及结构（6.1、6.3）基础描述（5.3、6.1） 块位置：左上角为原点 (0, 0) 向下x+，向右y+ 版本表示：Version V-E（其中V是版本号，E是纠错等级） 数据表示：黑块-1 白块-0（可以带背景全部反色） 大小：从版本1到版本40依次是 21x21 ～ 177x177（每增加一个版本，边长增加4）"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/structure.png"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/alnum.png"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/Latin-1.png"><meta property="og:image" content="https://blog.tonycrane.cc/p/1c1e6bbc/multi.png"><meta property="article:published_time" content="2021-11-29T16:20:06.000Z"><meta property="article:modified_time" content="2021-12-01T15:02:30.141Z"><meta property="article:author" content="TonyCrane"><meta property="article:tag" content="CTF"><meta property="article:tag" content="笔记"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/p/1c1e6bbc/structure.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.tonycrane.cc/p/1c1e6bbc.html"},"headline":"「QRCode 标准阅读」#1 构成及数据编码","image":["https://blog.tonycrane.cc/p/1c1e6bbc/structure.png","https://blog.tonycrane.cc/p/1c1e6bbc/alnum.png","https://blog.tonycrane.cc/p/1c1e6bbc/Latin-1.png","https://blog.tonycrane.cc/p/1c1e6bbc/multi.png"],"datePublished":"2021-11-29T16:20:06.000Z","dateModified":"2021-12-01T15:02:30.141Z","author":{"@type":"Person","name":"TonyCrane"},"publisher":{"@type":"Organization","name":"TonyCrane's Blog","logo":{"@type":"ImageObject","url":"https://blog.tonycrane.cc/BlogLogo.png"}},"description":"&lt; #0 #2 &gt;   基础描述及结构（6.1、6.3）基础描述（5.3、6.1） 块位置：左上角为原点 (0, 0) 向下x+，向右y+ 版本表示：Version V-E（其中V是版本号，E是纠错等级） 数据表示：黑块-1 白块-0（可以带背景全部反色） 大小：从版本1到版本40依次是 21x21 ～ 177x177（每增加一个版本，边长增加4）"}</script><link rel="canonical" href="https://blog.tonycrane.cc/p/1c1e6bbc.html"><link rel="icon" href="/Tony.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro&amp;family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400;1,700"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><script>var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
             hm.src = "//hm.baidu.com/hm.js?4fb5d144c1a2304049b314651f3033bc";
@@ -10,7 +10,7 @@
         gtag('js', new Date());
     
         gtag('config', 'G-GQ1YD8G8PG');</script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="TonyCrane's Blog" type="application/atom+xml">
-</head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/BlogLogo.png" alt="TonyCrane&#039;s Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/friends">友链</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item colormode" id="colormode" title="颜色主题" href="javascript:;"><i class="fas fa-sun"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-11-29T16:20:06.000Z" title="2021/11/30 上午12:20:06">2021-11-30</time>发表</span><span class="level-item"><time dateTime="2021-12-01T14:34:55.427Z" title="2021/12/1 下午10:34:55">2021-12-01</time>更新</span><span class="level-item">14 分钟读完 (大约2140个字)</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">「QRCode 标准阅读」#1 构成及数据编码</h1><div class="content"><div style="display: flex; justify-content: space-between;">
+</head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/BlogLogo.png" alt="TonyCrane&#039;s Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">主页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/friends">友链</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a><a class="navbar-item colormode" id="colormode" title="颜色主题" href="javascript:;"><i class="fas fa-sun"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-11-29T16:20:06.000Z" title="2021/11/30 上午12:20:06">2021-11-30</time>发表</span><span class="level-item"><time dateTime="2021-12-01T15:02:30.141Z" title="2021/12/1 下午11:02:30">2021-12-01</time>更新</span><span class="level-item">14 分钟读完 (大约2120个字)</span><span class="level-item" id="busuanzi_container_page_pv"><span id="busuanzi_value_page_pv">0</span>次访问</span></div></div><h1 class="title is-3 is-size-4-mobile">「QRCode 标准阅读」#1 构成及数据编码</h1><div class="content"><div style="display: flex; justify-content: space-between;">
 
 <p><a href="/p/409d352d.html">&lt; #0</a></p>
 <p><a href="/p/f956b4.html">#2 &gt;</a></p>
@@ -185,7 +185,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="数字模式（7-4-3）"><a href="#数字模式（7-4-3）" class="headerlink" title="数字模式（7.4.3）"></a>数字模式（7.4.3）</h3><p>输入的数字字符串（因为开头可以是0）要被分成3个一组，每组会转换为 10 bits 的二进制串（999 → <code>1111100111</code>）。剩余不到3个的部分，如果剩2个数字，则将其转换为 7 bits 的二进制串（99 → <code>1100011</code>）如果剩1个数字，则将其转换为 4 bits 的二进制串（9 → <code>1001</code>）</p>
+<h3 id="数字模式（7-4-3）"><a href="#数字模式（7-4-3）" class="headerlink" title="数字模式（7.4.3）"></a>数字模式（7.4.3）</h3><p>输入的数字字符串（因为开头可以是0）要被分成3个一组，每组会转换为 10 bits 的二进制串（999 -&gt; <code>1111100111</code>）。剩余不到3个的部分，如果剩2个数字，则将其转换为 7 bits 的二进制串（99 -&gt; <code>1100011</code>）如果剩1个数字，则将其转换为 4 bits 的二进制串（9 -&gt; <code>1001</code>）</p>
 <p>然后开头加上数字模式标识符 <code>0001</code> 和数量标识符（字符个数转为二进制，并开头补0至长度，长度由版本决定，见上 7.4.1 部分的第二个表）</p>
 <ul>
 <li><strong>例子</strong><ul>
@@ -194,9 +194,9 @@
 <li>数字模式标识符： <code>0001</code></li>
 <li>数量标识符： <code>0000001000</code>（8，且版本1下规定为 10 bits）</li>
 <li>数据：<ul>
-<li>012 → <code>0000001100</code></li>
-<li>345 → <code>0101011001</code></li>
-<li>67 → <code>1000011</code></li>
+<li>012 -&gt; <code>0000001100</code></li>
+<li>345 -&gt; <code>0101011001</code></li>
+<li>67 -&gt; <code>1000011</code></li>
 </ul>
 </li>
 </ul>
@@ -210,7 +210,7 @@
 <p>其中 M 为 4，C 为数量标识符长度（版本1～9为 10，版本10～26为 12，版本27～40为 14），D为输入字符个数，R为剩余部分（若 D mod 3 = 0 则为 0，若 D mod 3 = 1 则为 4，若 D mod 3 = 2 则为 7）</p>
 <h3 id="字母数字模式（7-4-4）"><a href="#字母数字模式（7-4-4）" class="headerlink" title="字母数字模式（7.4.4）"></a>字母数字模式（7.4.4）</h3><p>数字字母模式（Alphanumeric mode）下支持的编码字符有45个，把它们从0编号至44。其中 0-9 对应数字 0-9，10-35 对应字母 A-Z，36-44 对应9个符号：</p>
 <p><img src="/p/1c1e6bbc/alnum.png"></p>
-<p>输入的字符先按照上表转换为数值，然后分为两个一组，每一组内把 第一个数值 × 45 + 第二个数值，再转换为长度为 11 bits 的二进制串（最大为 44×45+44=2024 → <code>11111101000</code>）。如果字符长度为奇数，则会剩余出一个字符，需要将其值转换为长度为 6 bits 的二进制串（最大为 11 → <code>101100</code>）</p>
+<p>输入的字符先按照上表转换为数值，然后分为两个一组，每一组内把 第一个数值 × 45 + 第二个数值，再转换为长度为 11 bits 的二进制串（最大为 44×45+44=2024 -&gt; <code>11111101000</code>）。如果字符长度为奇数，则会剩余出一个字符，需要将其值转换为长度为 6 bits 的二进制串（最大为 11 -&gt; <code>101100</code>）</p>
 <p>然后开头加上字母数字模式标识符 <code>0010</code> 和数量标识符（长度由 7.4.1 第二个表规定）</p>
 <ul>
 <li><strong>例子</strong><ul>
@@ -218,10 +218,10 @@
 <li>数据流部分：<ul>
 <li>字母数字模式标识符： <code>0010</code></li>
 <li>数量标识符： <code>000000101</code>（5，且版本1下规定长度为9）</li>
-<li>数据：AC-42 → 10 12 41 4 2 → (10 12)(41 4)(2)<ul>
-<li>10 12 → 10*45+12=462 → <code>00111001110</code></li>
-<li>41 4 → 41*45+4=1849 → <code>11100111001</code></li>
-<li>2 → 2 → <code>000010</code> </li>
+<li>数据：AC-42 -&gt; 10 12 41 4 2 -&gt; (10 12)(41 4)(2)<ul>
+<li>10 12 -&gt; 10*45+12=462 -&gt; <code>00111001110</code></li>
+<li>41 4 -&gt; 41*45+4=1849 -&gt; <code>11100111001</code></li>
+<li>2 -&gt; 2 -&gt; <code>000010</code> </li>
 </ul>
 </li>
 </ul>
@@ -248,15 +248,15 @@
 <li>数字模式：<ul>
 <li>标识符： <code>0001</code></li>
 <li>数量标识符： <code>0000000011</code>（3，长度10）</li>
-<li>数据：123 → <code>0001111011</code></li>
+<li>数据：123 -&gt; <code>0001111011</code></li>
 </ul>
 </li>
-<li>字节模式：测试 → E6 B5 8B / E8 AF 95<ul>
+<li>字节模式：测试 -&gt; E6 B5 8B / E8 AF 95<ul>
 <li>标识符： <code>0100</code></li>
 <li>数量标识符： <code>00000110</code>（6，长度8）</li>
 <li>数据：<ul>
-<li>测 → <code>11100110 10110101 10001011</code></li>
-<li>试 → <code>11101000 10101111 10010101</code></li>
+<li>测 -&gt; <code>11100110 10110101 10001011</code></li>
+<li>试 -&gt; <code>11101000 10101111 10010101</code></li>
 </ul>
 </li>
 </ul>
