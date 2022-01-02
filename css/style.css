@@ -11667,18 +11667,18 @@ html[data-theme='dark'] {
 }
 [data-theme='dark'] .card {
   background-color: #161616;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
   box-shadow: 0 4px 10px #000;
 }
 [data-theme='dark'] .title {
-  color: rgba(255,255,255,0.9);
+  color: rgba(255,255,255,0.95);
 }
 [data-theme='dark'] .navbar {
   background-color: #161616;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.9);
 }
 [data-theme='dark'] .navbar-item {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.9);
 }
 [data-theme='dark'] .navbar-main {
   box-shadow: 0 4px 10px #000;
@@ -11703,11 +11703,11 @@ html[data-theme='dark'] {
   background-color: transparent;
 }
 [data-theme='dark'] .level-item {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .tag {
   background-color: #333;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .widget .tags .tag:first-child {
   background-color: #4873bf;
@@ -11715,20 +11715,20 @@ html[data-theme='dark'] {
 [data-theme='dark'] .button.is-light,
 [data-theme='dark'] article.article .article-more {
   background-color: #333;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .pagination-link,
 [data-theme='dark'] .pagination-next,
 [data-theme='dark'] .pagination-previous {
   background-color: #161616;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
   box-shadow: 0 4px 10px #000;
 }
 [data-theme='dark'] .pagination .pagination-link a,
 [data-theme='dark'] .pagination .pagination-ellipsis a,
 [data-theme='dark'] .pagination .pagination-previous a,
 [data-theme='dark'] .pagination .pagination-next a {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] article h1,
 [data-theme='dark'] article h2,
@@ -11743,8 +11743,11 @@ html[data-theme='dark'] {
 [data-theme='dark'] .menu-list li ul {
   border-left: 1px solid #424242;
 }
+[data-theme='dark'] .menu-label {
+  color: rgba(255,255,255,0.8);
+}
 [data-theme='dark'] a:hover {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .content blockquote {
   background-color: #202020;
@@ -11759,7 +11762,7 @@ html[data-theme='dark'] {
 }
 [data-theme='dark'] .menu-list a:hover {
   background-color: #333;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .menu-list a.is-active {
   background-color: #4873bf;
@@ -11777,7 +11780,7 @@ html[data-theme='dark'] {
 [data-theme='dark'] .searchbox .searchbox-header,
 [data-theme='dark'] .searchbox .searchbox-input {
   background-color: #333;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .searchbox .searchbox-result-section {
   border-bottom: 1px solid #555;
@@ -11798,7 +11801,7 @@ html[data-theme='dark'] {
   background: #1c1c1c;
 }
 [data-theme='dark'] .searchbox .searchbox-result-icon {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.8);
 }
 [data-theme='dark'] .content table thead td,
 [data-theme='dark'] .content table thead th {
@@ -11865,4 +11868,59 @@ html[data-theme='dark'] {
 [data-theme='dark'] .hljs-type,
 [data-theme='dark'] .hljs-selector-id {
   font-weight: bold;
+}
+.flink-list {
+  overflow: auto;
+  padding: 10px 10px 0;
+  text-align: center;
+}
+.flink-list a {
+  color: #4a4a4a;
+}
+[data-theme='dark'] .flink-list a {
+  color: rgba(255,255,255,0.7);
+}
+.flink-list-item {
+  position: relative;
+  float: left;
+  overflow: hidden;
+  margin: 15px 7px;
+  width: calc(100% / 3 - 15px);
+  height: 90px;
+  border-radius: 8px;
+  line-height: 17px;
+  -webkit-transform: translateZ(0);
+  transition: 0.25s;
+}
+.flink-item-icon {
+  float: left;
+  overflow: hidden;
+  margin: 15px 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 35px;
+}
+.flink-item-name {
+  padding: 16px 10px 0 0;
+  height: 40px;
+  font-weight: bold;
+  font-size: 1.43em;
+}
+.flink-item-desc {
+  padding: 16px 10px 16px 0;
+  height: 50px;
+  font-size: 0.93em;
+}
+.flink-list-item:hover {
+  background-color: #81acf9;
+}
+@media screen and (max-width: 1280px) {
+  .flink-list-item {
+    width: calc(50% - 15px) !important;
+  }
+}
+@media screen and (max-width: 810px) {
+  .flink-list-item {
+    width: calc(100% - 15px) !important;
+  }
 }
