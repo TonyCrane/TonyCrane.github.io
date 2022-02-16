@@ -149,8 +149,8 @@
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
         <tag>github</tag>
+        <tag>笔记</tag>
         <tag>manim</tag>
         <tag>python</tag>
         <tag>bug</tag>
@@ -4119,8 +4119,8 @@
         <category>笔记</category>
       </categories>
       <tags>
-        <tag>笔记</tag>
         <tag>github</tag>
+        <tag>笔记</tag>
         <tag>manim</tag>
         <tag>python</tag>
         <tag>bug</tag>
@@ -6637,13 +6637,13 @@ MathJax.Hub.Config({
 ]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>友链</title>
+    <url>/friends/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>友链</title>
-    <url>/friends/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
