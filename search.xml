@@ -1292,8 +1292,8 @@
         <category>生活</category>
       </categories>
       <tags>
-        <tag>随笔</tag>
         <tag>生活</tag>
+        <tag>随笔</tag>
       </tags>
   </entry>
   <entry>
@@ -6637,13 +6637,13 @@ MathJax.Hub.Config({
 ]]></content>
   </entry>
   <entry>
-    <title>友链</title>
-    <url>/friends/index.html</url>
+    <title>categories</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>categories</title>
-    <url>/categories/index.html</url>
+    <title>友链</title>
+    <url>/friends/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
