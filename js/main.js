@@ -140,7 +140,7 @@ $(function () {
     Array.from($("img")).forEach(img => {
         let ori = img.src;
         if (ori.match(/https:\/\/blog\.tonycrane\.cc\/.*?\.(jpg|png|gif)/)) {
-            img.src = "https://fastly.jsdelivr.net/gh/tonycrane/tonycrane.github.io/" + ori.substr(26);
+            img.src = "https://gcore.jsdelivr.net/gh/tonycrane/tonycrane.github.io/" + ori.substr(26);
         }
     });
 });

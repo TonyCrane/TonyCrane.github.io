@@ -157,14 +157,14 @@
     <link href="https://blog.tonycrane.cc/p/409d352d.html"/>
     <id>https://blog.tonycrane.cc/p/409d352d.html</id>
     <published>2021-11-29T16:03:39.000Z</published>
-    <updated>2022-05-21T03:14:22.410Z</updated>
+    <updated>2022-06-01T11:49:26.025Z</updated>
     
-    <content type="html"><![CDATA[<p>最近几次比赛遇到过好几次二维码的题目，打算好好来读一读标准文档 <a href="https://fastly.jsdelivr.net/gh/tonycrane/tonycrane.github.io/p/409d352d/ISO_IEC18004-2015.pdf">ISO/IEC 18004:2015</a><br>文档 6.1 前面的内容不多，就从它后面开始记了</p><h2 id="Table-of-Content"><a href="#Table-of-Content" class="headerlink" title="Table of Content"></a>Table of Content</h2><ul><li><a href="/p/1c1e6bbc.html">「QRCode 标准阅读」#1 构成及数据编码</a><br>  对应文档中的 6.1~7.4 部分</li><li><a href="/p/f956b4.html">「QRCode 标准阅读」#2 纠错码编码与图像生成</a><br>  对应文档中的 7.5～7.10 部分</li><li><a href="/p/12ee036b.html">「QRCode 标准阅读」#3 解码纠错过程</a><br>  对应文档中的 11 部分以及补充了 PGZ 解码相关内容</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>最近几次比赛遇到过好几次二维码的题目，打算好好来读一读标准文档 <a href="https://gcore.jsdelivr.net/gh/tonycrane/tonycrane.github.io/p/409d352d/ISO_IEC18004-2015.pdf">ISO/IEC 18004:2015</a><br>文档 6.1 前面的内容不多，就从它后面开始记了</p><h2 id="Table-of-Content"><a href="#Table-of-Content" class="headerlink" title="Table of Content"></a>Table of Content</h2><ul><li><a href="/p/1c1e6bbc.html">「QRCode 标准阅读」#1 构成及数据编码</a><br>  对应文档中的 6.1~7.4 部分</li><li><a href="/p/f956b4.html">「QRCode 标准阅读」#2 纠错码编码与图像生成</a><br>  对应文档中的 7.5～7.10 部分</li><li><a href="/p/12ee036b.html">「QRCode 标准阅读」#3 解码纠错过程</a><br>  对应文档中的 11 部分以及补充了 PGZ 解码相关内容</li></ul>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;最近几次比赛遇到过好几次二维码的题目，打算好好来读一读标准文档 &lt;a href=&quot;https://fastly.jsdelivr.net/gh/tonycrane/tonycrane.github.io/p/409d352d/ISO_IEC18004-2015.pdf&quot;&gt;I</summary>
+    <summary type="html">&lt;p&gt;最近几次比赛遇到过好几次二维码的题目，打算好好来读一读标准文档 &lt;a href=&quot;https://gcore.jsdelivr.net/gh/tonycrane/tonycrane.github.io/p/409d352d/ISO_IEC18004-2015.pdf&quot;&gt;IS</summary>
       
     
     
