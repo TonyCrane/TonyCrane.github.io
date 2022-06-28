@@ -1,3 +1,4 @@
+@import url("https://gcore.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css");
 @-moz-keyframes spinAround {
   from {
     transform: rotate(0deg);
@@ -412,7 +413,7 @@ button,
 input,
 select,
 textarea {
-  font-family: 'JetBrains Mono', 'Courier', 'Microsoft YaHei', sans-serif;
+  font-family: 'JetBrains Mono', 'LXGW WenKai Screen', 'Courier', 'Microsoft YaHei', sans-serif;
 }
 code,
 pre {
@@ -1064,13 +1065,13 @@ a.has-text-grey-lightest:focus {
   font-weight: 700 !important;
 }
 .is-family-primary {
-  font-family: 'JetBrains Mono', 'Courier', 'Microsoft YaHei', sans-serif !important;
+  font-family: 'JetBrains Mono', 'LXGW WenKai Screen', 'Courier', 'Microsoft YaHei', sans-serif !important;
 }
 .is-family-secondary {
-  font-family: 'JetBrains Mono', 'Courier', 'Microsoft YaHei', sans-serif !important;
+  font-family: 'JetBrains Mono', 'LXGW WenKai Screen', 'Courier', 'Microsoft YaHei', sans-serif !important;
 }
 .is-family-sans-serif {
-  font-family: 'JetBrains Mono', 'Courier', 'Microsoft YaHei', sans-serif !important;
+  font-family: 'JetBrains Mono', 'LXGW WenKai Screen', 'Courier', 'Microsoft YaHei', sans-serif !important;
 }
 .is-family-monospace {
   font-family: monospace !important;
@@ -11585,7 +11586,7 @@ figure.highlight .section {
 .cc-window,
 .cc-revoke {
   font-size: 1.1rem !important;
-  font-family: 'JetBrains Mono', 'Courier', 'Microsoft YaHei', sans-serif !important;
+  font-family: 'JetBrains Mono', 'LXGW WenKai Screen', 'Courier', 'Microsoft YaHei', sans-serif !important;
 }
 .cc-window {
   color: #4a4a4a !important;
