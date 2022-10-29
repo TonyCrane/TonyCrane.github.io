@@ -152,9 +152,9 @@
     
     <category term="Rust" scheme="https://blog.tonycrane.cc/tags/Rust/"/>
     
-    <category term="生活" scheme="https://blog.tonycrane.cc/tags/%E7%94%9F%E6%B4%BB/"/>
-    
     <category term="杂谈" scheme="https://blog.tonycrane.cc/tags/%E6%9D%82%E8%B0%88/"/>
+    
+    <category term="生活" scheme="https://blog.tonycrane.cc/tags/%E7%94%9F%E6%B4%BB/"/>
     
     <category term="随笔" scheme="https://blog.tonycrane.cc/tags/%E9%9A%8F%E7%AC%94/"/>
     
@@ -503,9 +503,9 @@
     
     
     
-    <category term="python" scheme="https://blog.tonycrane.cc/tags/python/"/>
-    
     <category term="CTF" scheme="https://blog.tonycrane.cc/tags/CTF/"/>
+    
+    <category term="python" scheme="https://blog.tonycrane.cc/tags/python/"/>
     
   </entry>
   
@@ -526,9 +526,9 @@
     <category term="Writeup" scheme="https://blog.tonycrane.cc/categories/Writeup/"/>
     
     
-    <category term="python" scheme="https://blog.tonycrane.cc/tags/python/"/>
-    
     <category term="CTF" scheme="https://blog.tonycrane.cc/tags/CTF/"/>
+    
+    <category term="python" scheme="https://blog.tonycrane.cc/tags/python/"/>
     
     <category term="Writeup" scheme="https://blog.tonycrane.cc/tags/Writeup/"/>
     
