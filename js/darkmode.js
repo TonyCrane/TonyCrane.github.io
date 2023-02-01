@@ -39,6 +39,14 @@
       }
     })
     $('#colormode')[0].innerHTML = '<i class="fas fa-sun"></i>'
+    var frame = document.querySelector(".giscus-frame")
+    if (frame) {
+      var theme = "https://gcore.jsdelivr.net/gh/TonyCrane/note/docs/css/giscus.css"
+      frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        "https://giscus.app"
+      )
+    }
   }
   win.activateLightMode = function () {
     document.documentElement.setAttribute('data-theme', 'light')
@@ -52,6 +60,14 @@
       }
     })
     $('#colormode')[0].innerHTML = '<i class="fas fa-moon"></i>'
+    var frame = document.querySelector(".giscus-frame")
+    if (frame) {
+      var theme = "light"
+      frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        "https://giscus.app"
+      )
+    }
   }
   const t = saveToLocal.get('theme')
   const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
